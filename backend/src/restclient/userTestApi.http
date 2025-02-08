@@ -1,0 +1,26 @@
+### Register a new user
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+  "firstName": "Janet",
+  "lastName": "Doe",
+  "phoneNo": "4321587690",
+  "email": "janetdoe@example.com",
+  "password": "examplepassword"
+}
+
+### Login user
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "janedoe@example.com",
+  "password": "examplepassword"
+}
+
+### Get user by ID 
+GET http://localhost:3000/api/users/2947cae8-97b3-4b1d-8d54-db9bfdfa865b
+
+### Get all users
+GET http://localhost:3000/api/users
