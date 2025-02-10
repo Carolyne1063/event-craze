@@ -19,4 +19,16 @@ router.get('/:userId', asyncHandler(async (req, res) => {
   // Get all users
 router.get('/', asyncHandler((req, res) => userController.getAllUsers(req, res)));
 
+
+
+// Update user
+router.put('/:userId', asyncHandler(async (req, res) => {
+  await userController.updateUser(req, res);
+}));
+
+// Delete user
+router.delete('/:userId', asyncHandler(async (req, res) => {
+  await userController.deleteUser(req, res);
+}));
+
 export default router;

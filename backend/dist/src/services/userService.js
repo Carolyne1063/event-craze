@@ -44,5 +44,16 @@ class UserService {
     async getAllUsers() {
         return prisma.user.findMany();
     }
+    // Update user details
+    async updateUser(userId, data) {
+        if (data.password) {
+            data.password = await bcrypt_1.default.hash(data.password, 10);
+        }
+        return prisma.user.update({ where: { id: userId }, data });
+    }
+    // Delete user
+    async deleteUser(userId) {
+        return prisma.user.delete({ where: { id: userId } });
+    }
 }
 exports.UserService = UserService;

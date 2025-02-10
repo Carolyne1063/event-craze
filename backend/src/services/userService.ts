@@ -48,4 +48,18 @@ export class UserService {
   async getAllUsers() {
     return prisma.user.findMany();
   }
+
+  // Update user details
+  async updateUser(userId: string, data: Partial<{ firstName: string; lastName: string; phoneNo: string; email: string; password: string }>) {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
+    return prisma.user.update({ where: { id: userId }, data });
+  }
+
+  // Delete user
+  async deleteUser(userId: string) {
+    return prisma.user.delete({ where: { id: userId } });
+  }
 }
+
