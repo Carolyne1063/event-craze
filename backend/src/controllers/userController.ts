@@ -7,8 +7,8 @@ export class UserController {
   // Register User
   async register(req: Request, res: Response) {
     try {
-      const { firstName, lastName, phoneNo, email, password } = req.body;
-      const user = await userService.registerUser(firstName, lastName, phoneNo, email, password);
+      const { firstName, lastName, phoneNo, email, password, role } = req.body;
+      const user = await userService.registerUser(firstName, lastName, phoneNo, email, password, role);
       res.status(201).json({ message: 'User registered successfully', user });
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';

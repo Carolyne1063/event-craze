@@ -3,11 +3,12 @@ POST http://localhost:3000/api/users/register
 Content-Type: application/json
 
 {
-  "firstName": "Carol",
+  "firstName": "Admin",
   "lastName": "Doe",
-  "phoneNo": "4323456690",
-  "email": "caroldoe@example.com",
-  "password": "examplepassword"
+  "phoneNo": "123412356",
+  "email": "admin@example.com",
+  "password": "adminpassword",
+  "role": "ADMIN"
 }
 
 ### Login user
@@ -15,12 +16,12 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "caroldoe@example.com",
-  "password": "examplepassword"
+  "email": "admin@example.com",
+  "password": "adminpassword"
 }
 
 ### Get user by ID 
-GET http://localhost:3000/api/users/066d05e2-0886-4496-9d4a-5ec90023adc7
+GET http://localhost:3000/api/users/a04b4849-e0be-41fc-9fbb-b7b4b7086386
 
 ### Get all users
 GET http://localhost:3000/api/users
@@ -38,5 +39,5 @@ Content-Type: application/json
 }
 
 ###Delete user
-DELETE http://localhost:3000/api/users/066d05e2-0886-4496-9d4a-5ec90023adc7
+DELETE http://localhost:3000/api/users/a04b4849-e0be-41fc-9fbb-b7b4b7086386
 

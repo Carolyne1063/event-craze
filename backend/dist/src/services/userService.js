@@ -10,7 +10,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const prisma = new client_1.PrismaClient();
 class UserService {
     // Register a new user
-    async registerUser(firstName, lastName, phoneNo, email, password) {
+    async registerUser(firstName, lastName, phoneNo, email, password, role = 'USER') {
         const hashedPassword = await bcrypt_1.default.hash(password, 10);
         return prisma.user.create({
             data: {
@@ -19,6 +19,7 @@ class UserService {
                 phoneNo,
                 email,
                 password: hashedPassword,
+                role: role || "USER",
             },
         });
     }
@@ -33,7 +34,7 @@ class UserService {
             throw new Error('Invalid email or password');
         }
         // Generate JWT Token
-        const token = jsonwebtoken_1.default.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jsonwebtoken_1.default.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
         return { token, user };
     }
     // Fetch a user by ID

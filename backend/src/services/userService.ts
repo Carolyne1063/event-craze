@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export class UserService {
   // Register a new user
-  async registerUser(firstName: string, lastName: string, phoneNo: string, email: string, password: string) {
+  async registerUser(firstName: string, lastName: string, phoneNo: string, email: string, password: string, role: 'USER' | 'ADMIN' = 'USER') {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     return prisma.user.create({
@@ -16,6 +16,7 @@ export class UserService {
         phoneNo,
         email,
         password: hashedPassword,
+        role: role || "USER",
       },
     });
   }
@@ -34,7 +35,11 @@ export class UserService {
     }
 
     // Generate JWT Token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
+    const token = jwt.sign(
+      { userId: user.id, role: user.role },
+      process.env.JWT_SECRET as string,
+      { expiresIn: '1d' }
+    );
 
     return { token, user };
   }
@@ -50,7 +55,7 @@ export class UserService {
   }
 
   // Update user details
-  async updateUser(userId: string, data: Partial<{ firstName: string; lastName: string; phoneNo: string; email: string; password: string }>) {
+  async updateUser(userId: string, data: Partial<{ firstName: string; lastName: string; phoneNo: string; email: string; password: string; role: 'USER' | 'ADMIN' }>) {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 10);
     }
@@ -62,4 +67,3 @@ export class UserService {
     return prisma.user.delete({ where: { id: userId } });
   }
 }
-
