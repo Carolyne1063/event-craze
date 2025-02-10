@@ -1,0 +1,33 @@
+### Create an Event
+POST http://localhost:3000/api/events/create
+Content-Type: application/json
+
+{
+  "eventName": "Tech Conference 2025",
+  "date": "2025-09-15T10:00:00.000Z",
+  "time": "10:00 AM",
+  "location": "Nairobi, Kenya",
+  "description": "A conference for technology enthusiasts.",
+  "totalTickets": 500
+}
+
+### Get All Events
+GET http://localhost:3000/api/events/
+
+### Get a Single Event by ID
+GET http://localhost:3000/api/events/6e067143-9931-448b-8224-3a9ffb7a3392
+### Update an Event
+PUT http://localhost:3000/api/events/6e067143-9931-448b-8224-3a9ffb7a3392
+Content-Type: application/json
+
+{
+  "eventName": "Updated Tech Conference",
+  "date": "2025-10-20T10:00:00.000Z",
+  "time": "11:00 AM",
+  "location": "Mombasa, Kenya",
+  "description": "An updated tech event.",
+  "totalTickets": 600
+}
+
+### Delete an Event
+DELETE http://localhost:3000/api/events/6e067143-9931-448b-8224-3a9ffb7a3392
