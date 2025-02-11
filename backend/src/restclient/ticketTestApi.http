@@ -1,0 +1,29 @@
+### Create a new ticket for an event
+POST http://localhost:3000/api/tickets/create
+Content-Type: application/json
+
+{
+  "eventId": "8e67efea-dfe2-4a6b-9460-9e52850344f7",
+  "type": "Group of 5",
+  "quantity": 200,
+  "price": 500.00
+}
+
+### Update a ticket by ID
+PUT http://localhost:3000/api/tickets/update/c9da4bfc-0b99-422b-8e1a-e629c0ac15ff
+Content-Type: application/json
+
+{
+  "type": "Group of 5",
+  "quantity": 200,
+  "price": 500.00
+}
+
+### Delete a ticket by ID
+DELETE http://localhost:3000/api/tickets/delete/c9da4bfc-0b99-422b-8e1a-e629c0ac15ff
+
+### Fetch all tickets for a specific event
+GET http://localhost:3000/api/tickets/event/8e67efea-dfe2-4a6b-9460-9e52850344f7
+
+### Fetch a single ticket by ID
+GET http://localhost:3000/api/tickets/c9da4bfc-0b99-422b-8e1a-e629c0ac15ff
