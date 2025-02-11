@@ -61,7 +61,8 @@ model Booking {
   eventId   String  
   event     Event    @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction)  
   ticketId  String  
-  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: NoAction, onUpdate: NoAction)  
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: NoAction, onUpdate: NoAction) 
+  ticketType  String 
   quantity  Int      
   totalPrice Decimal  
   createdAt DateTime @default(now())  

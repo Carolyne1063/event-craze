@@ -4,33 +4,36 @@ const client_1 = require("@prisma/client");
 const library_1 = require("@prisma/client/runtime/library");
 const prisma = new client_1.PrismaClient();
 class BookingService {
+    // Create a booking and return its details including the ticketType.
     static async createBooking(userId, eventId, ticketType, quantity) {
         try {
-            // Find the event and ticket type
+            // Find the ticket record matching the event and ticketType.
             const ticket = await prisma.ticket.findFirst({
                 where: { eventId, type: ticketType },
             });
             if (!ticket) {
                 throw new Error("Ticket type not found for this event.");
             }
-            // Check if enough tickets are available
+            // Check ticket availability.
             if (ticket.quantity < quantity) {
                 throw new Error("Not enough tickets available.");
             }
-            // Calculate total price using Decimal
+            // Calculate total price using Decimal.
             const totalPrice = new library_1.Decimal(ticket.price).mul(new library_1.Decimal(quantity));
-            // Create booking and include related ticket, event, and user details
+            // Create the booking.
+            // Note: The ticketType field is saved in the booking record.
             const booking = await prisma.booking.create({
                 data: {
                     userId,
                     eventId,
                     ticketId: ticket.id,
+                    ticketType, // This field will be stored and returned.
                     quantity,
                     totalPrice,
                 },
                 include: { ticket: true, event: true, user: true },
             });
-            // Update ticket quantity (decrement the available amount)
+            // Decrement the ticket quantity.
             await prisma.ticket.update({
                 where: { id: ticket.id },
                 data: { quantity: { decrement: quantity } },
@@ -52,12 +55,16 @@ class BookingService {
             include: { event: true, ticket: true },
         });
     }
-    // Updated getBookingById to include event, ticket, and user details
+    // Retrieve a booking by its ID and include event, ticket, and user details.
     static async getBookingById(bookingId) {
-        return await prisma.booking.findUnique({
+        const booking = await prisma.booking.findUnique({
             where: { id: bookingId },
             include: { event: true, ticket: true, user: true },
         });
+        if (!booking) {
+            throw new Error("Booking not found.");
+        }
+        return booking;
     }
     static async cancelBooking(bookingId) {
         try {
@@ -66,12 +73,12 @@ class BookingService {
             });
             if (!booking)
                 throw new Error("Booking not found");
-            // Restore ticket quantity by incrementing with the booking quantity
+            // Restore the ticket quantity.
             await prisma.ticket.update({
                 where: { id: booking.ticketId },
                 data: { quantity: { increment: booking.quantity } },
             });
-            // Delete booking
+            // Delete the booking.
             await prisma.booking.delete({
                 where: { id: bookingId },
             });
@@ -87,25 +94,27 @@ class BookingService {
         }
     }
     /**
-     * Update a booking by changing the ticket type and/or the ticket quantity.
-     * - If a new ticket type is provided (and it's different from the current one):
-     *   1. Restore the full booked quantity to the old ticket's pool.
-     *   2. Find the new ticket for the event with the provided type.
-     *   3. Verify that the new ticket has enough available quantity.
-     *   4. Deduct the requested new quantity from the new ticket.
-     *   5. Use the new ticket's price for recalculating the total price.
-     * - Otherwise, if only the quantity changes:
-     *   1. Adjust the current ticket's available quantity.
-     *   2. Recalculate the total price using the current ticket's price.
-     * The updated booking is then returned with event, ticket, and user details.
-     */
-    static async updateBooking(bookingId, newQuantity, newTicketType) {
+   * Update a booking by changing the ticket type and/or quantity.
+   * - newTicketType is now required.
+   * - If a new ticket type is provided (and it's different from the current one):
+   *   1. Restore the full booked quantity to the old ticket's pool.
+   *   2. Look up the new Ticket record for the event by its type.
+   *   3. Verify that the new ticket has enough available tickets.
+   *   4. Deduct the requested new quantity from the new ticket.
+   *   5. Use the new ticket's price for recalculating the total price.
+   * - Otherwise, if only the quantity changes:
+   *   1. Adjust the current ticket's available quantity.
+   *   2. Recalculate the total price using the current ticket's price.
+   * The updated booking is returned with event, ticket, and user details.
+   */
+    static async updateBooking(bookingId, newQuantity, newTicketType // Now required
+    ) {
         try {
             // Guard clause: Ensure newQuantity is provided and valid.
             if (newQuantity === undefined || newQuantity === null || newQuantity <= 0) {
                 throw new Error("New quantity must be provided and be greater than 0.");
             }
-            // Retrieve the booking with associated ticket, event, and user details.
+            // Retrieve the booking with its associated ticket, event, and user details.
             const booking = await prisma.booking.findUnique({
                 where: { id: bookingId },
                 include: { ticket: true, event: true, user: true },
@@ -116,16 +125,14 @@ class BookingService {
             const oldQuantity = booking.quantity;
             let updatedTicketId = currentTicket.id;
             let ticketPrice = currentTicket.price;
-            // If a new ticket type is provided:
-            if (newTicketType) {
-                // If the new ticket type is different from the current ticket's type, restore old quantity.
-                if (newTicketType !== currentTicket.type) {
-                    await prisma.ticket.update({
-                        where: { id: currentTicket.id },
-                        data: { quantity: { increment: oldQuantity } },
-                    });
-                }
-                // Force re-fetch the new ticket record using the provided newTicketType.
+            // If the new ticket type is provided and different from the current ticket's type:
+            if (newTicketType !== currentTicket.type) {
+                // Restore the full booked quantity to the current ticket's pool.
+                await prisma.ticket.update({
+                    where: { id: currentTicket.id },
+                    data: { quantity: { increment: oldQuantity } },
+                });
+                // Fetch the new Ticket record for the event using the provided newTicketType.
                 const newTicket = await prisma.ticket.findFirst({
                     where: { eventId: booking.eventId, type: newTicketType },
                 });
@@ -146,7 +153,7 @@ class BookingService {
                 ticketPrice = newTicket.price;
             }
             else {
-                // No new ticket type provided; adjust the quantity on the current ticket.
+                // No change in ticket type; adjust the quantity on the current ticket.
                 if (newQuantity > oldQuantity) {
                     const additionalNeeded = newQuantity - oldQuantity;
                     if (currentTicket.quantity < additionalNeeded) {
@@ -188,9 +195,6 @@ class BookingService {
             }
         }
     }
-    /**
-     * Retrieve all bookings for a specific event.
-     */
     static async getBookingsByEvent(eventId) {
         return await prisma.booking.findMany({
             where: { eventId },

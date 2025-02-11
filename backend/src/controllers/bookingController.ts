@@ -28,22 +28,20 @@ class BookingController {
     }
   }
 
-  static async getBookingById(req: Request, res: Response): Promise<void> {
+  static async getBookingById(req: Request, res: Response) {
     try {
       const { bookingId } = req.params;
       const booking = await BookingService.getBookingById(bookingId);
       if (!booking) {
-        res.status(404).json({ message: "Booking not found" });
-        return;
+        return res.status(404).json({ message: "Booking not found" });
       }
       res.status(200).json(booking);
-      return;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
       res.status(400).json({ message: errorMessage });
-      return;
     }
   }
+  
 
   static async cancelBooking(req: Request, res: Response): Promise<void> {
     try {
@@ -66,7 +64,8 @@ class BookingController {
     try {
       const { bookingId } = req.params;
       const { newQuantity } = req.body;
-      const updatedBooking = await BookingService.updateBooking(bookingId, newQuantity);
+      const {newTicketType} = req.body;
+      const updatedBooking = await BookingService.updateBooking(bookingId,  newQuantity, newTicketType);
       res.status(200).json(updatedBooking);
       return;
     } catch (error) {
