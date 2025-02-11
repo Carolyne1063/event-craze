@@ -107,14 +107,12 @@ class BookingService {
    *   2. Recalculate the total price using the current ticket's price.
    * The updated booking is returned with event, ticket, and user details.
    */
-    static async updateBooking(bookingId, newQuantity, newTicketType // Now required
-    ) {
+    static async updateBooking(bookingId, newQuantity, newTicketType) {
         try {
-            // Guard clause: Ensure newQuantity is provided and valid.
             if (newQuantity === undefined || newQuantity === null || newQuantity <= 0) {
                 throw new Error("New quantity must be provided and be greater than 0.");
             }
-            // Retrieve the booking with its associated ticket, event, and user details.
+            // Retrieve the booking with associated ticket, event, and user details.
             const booking = await prisma.booking.findUnique({
                 where: { id: bookingId },
                 include: { ticket: true, event: true, user: true },
@@ -125,35 +123,31 @@ class BookingService {
             const oldQuantity = booking.quantity;
             let updatedTicketId = currentTicket.id;
             let ticketPrice = currentTicket.price;
-            // If the new ticket type is provided and different from the current ticket's type:
-            if (newTicketType !== currentTicket.type) {
-                // Restore the full booked quantity to the current ticket's pool.
-                await prisma.ticket.update({
-                    where: { id: currentTicket.id },
-                    data: { quantity: { increment: oldQuantity } },
-                });
-                // Fetch the new Ticket record for the event using the provided newTicketType.
+            // If a new ticket type is provided:
+            if (newTicketType) {
+                if (newTicketType !== currentTicket.type) {
+                    await prisma.ticket.update({
+                        where: { id: currentTicket.id },
+                        data: { quantity: { increment: oldQuantity } },
+                    });
+                }
                 const newTicket = await prisma.ticket.findFirst({
                     where: { eventId: booking.eventId, type: newTicketType },
                 });
                 if (!newTicket) {
                     throw new Error("New ticket type not found for this event.");
                 }
-                // Check if enough tickets are available in the new ticket record.
                 if (newTicket.quantity < newQuantity) {
                     throw new Error("Not enough tickets available for the new ticket type.");
                 }
-                // Deduct the requested quantity from the new ticket.
                 await prisma.ticket.update({
                     where: { id: newTicket.id },
                     data: { quantity: { decrement: newQuantity } },
                 });
-                // Update references to use the new ticket.
                 updatedTicketId = newTicket.id;
                 ticketPrice = newTicket.price;
             }
             else {
-                // No change in ticket type; adjust the quantity on the current ticket.
                 if (newQuantity > oldQuantity) {
                     const additionalNeeded = newQuantity - oldQuantity;
                     if (currentTicket.quantity < additionalNeeded) {
@@ -172,13 +166,12 @@ class BookingService {
                     });
                 }
             }
-            // Recalculate total price based on the (possibly updated) ticket price and new quantity.
             const newTotalPrice = new library_1.Decimal(ticketPrice).mul(new library_1.Decimal(newQuantity));
-            // Update the booking record with the new ticket reference (if changed), new quantity, and total price.
             const updatedBooking = await prisma.booking.update({
                 where: { id: bookingId },
                 data: {
                     ticketId: updatedTicketId,
+                    ticketType: newTicketType,
                     quantity: newQuantity,
                     totalPrice: newTotalPrice,
                 },

@@ -120,102 +120,93 @@ class BookingService {
  *   2. Recalculate the total price using the current ticket's price.
  * The updated booking is returned with event, ticket, and user details.
  */
-static async updateBooking(
-  bookingId: string,
-  newQuantity: number,
-  newTicketType: string // Now required
-) {
-  try {
-    // Guard clause: Ensure newQuantity is provided and valid.
-    if (newQuantity === undefined || newQuantity === null || newQuantity <= 0) {
-      throw new Error("New quantity must be provided and be greater than 0.");
-    }
-
-    // Retrieve the booking with its associated ticket, event, and user details.
-    const booking = await prisma.booking.findUnique({
-      where: { id: bookingId },
-      include: { ticket: true, event: true, user: true },
-    });
-    if (!booking) throw new Error("Booking not found.");
-
-    let currentTicket = booking.ticket;
-    const oldQuantity = booking.quantity;
-    let updatedTicketId = currentTicket.id;
-    let ticketPrice = currentTicket.price;
-
-    // If the new ticket type is provided and different from the current ticket's type:
-    if (newTicketType !== currentTicket.type) {
-      // Restore the full booked quantity to the current ticket's pool.
-      await prisma.ticket.update({
-        where: { id: currentTicket.id },
-        data: { quantity: { increment: oldQuantity } },
-      });
-
-      // Fetch the new Ticket record for the event using the provided newTicketType.
-      const newTicket = await prisma.ticket.findFirst({
-        where: { eventId: booking.eventId, type: newTicketType },
-      });
-      if (!newTicket) {
-        throw new Error("New ticket type not found for this event.");
+  static async updateBooking(
+    bookingId: string,
+    newQuantity: number,
+    newTicketType?: string
+  ) {
+    try {
+      if (newQuantity === undefined || newQuantity === null || newQuantity <= 0) {
+        throw new Error("New quantity must be provided and be greater than 0.");
       }
-
-      // Check if enough tickets are available in the new ticket record.
-      if (newTicket.quantity < newQuantity) {
-        throw new Error("Not enough tickets available for the new ticket type.");
-      }
-
-      // Deduct the requested quantity from the new ticket.
-      await prisma.ticket.update({
-        where: { id: newTicket.id },
-        data: { quantity: { decrement: newQuantity } },
+  
+      // Retrieve the booking with associated ticket, event, and user details.
+      const booking = await prisma.booking.findUnique({
+        where: { id: bookingId },
+        include: { ticket: true, event: true, user: true },
       });
-
-      // Update references to use the new ticket.
-      updatedTicketId = newTicket.id;
-      ticketPrice = newTicket.price;
-    } else {
-      // No change in ticket type; adjust the quantity on the current ticket.
-      if (newQuantity > oldQuantity) {
-        const additionalNeeded = newQuantity - oldQuantity;
-        if (currentTicket.quantity < additionalNeeded) {
-          throw new Error("Not enough additional tickets available.");
+      if (!booking) throw new Error("Booking not found.");
+  
+      let currentTicket = booking.ticket;
+      const oldQuantity = booking.quantity;
+      let updatedTicketId = currentTicket.id;
+      let ticketPrice = currentTicket.price;
+  
+      // If a new ticket type is provided:
+      if (newTicketType) {
+        if (newTicketType !== currentTicket.type) {
+          await prisma.ticket.update({
+            where: { id: currentTicket.id },
+            data: { quantity: { increment: oldQuantity } },
+          });
+        }
+        const newTicket = await prisma.ticket.findFirst({
+          where: { eventId: booking.eventId, type: newTicketType },
+        });
+        if (!newTicket) {
+          throw new Error("New ticket type not found for this event.");
+        }
+        if (newTicket.quantity < newQuantity) {
+          throw new Error("Not enough tickets available for the new ticket type.");
         }
         await prisma.ticket.update({
-          where: { id: currentTicket.id },
-          data: { quantity: { decrement: additionalNeeded } },
+          where: { id: newTicket.id },
+          data: { quantity: { decrement: newQuantity } },
         });
-      } else if (newQuantity < oldQuantity) {
-        const reduction = oldQuantity - newQuantity;
-        await prisma.ticket.update({
-          where: { id: currentTicket.id },
-          data: { quantity: { increment: reduction } },
-        });
+        updatedTicketId = newTicket.id;
+        ticketPrice = newTicket.price;
+      } else {
+        if (newQuantity > oldQuantity) {
+          const additionalNeeded = newQuantity - oldQuantity;
+          if (currentTicket.quantity < additionalNeeded) {
+            throw new Error("Not enough additional tickets available.");
+          }
+          await prisma.ticket.update({
+            where: { id: currentTicket.id },
+            data: { quantity: { decrement: additionalNeeded } },
+          });
+        } else if (newQuantity < oldQuantity) {
+          const reduction = oldQuantity - newQuantity;
+          await prisma.ticket.update({
+            where: { id: currentTicket.id },
+            data: { quantity: { increment: reduction } },
+          });
+        }
+      }
+  
+      const newTotalPrice = new Decimal(ticketPrice).mul(new Decimal(newQuantity));
+  
+      const updatedBooking = await prisma.booking.update({
+        where: { id: bookingId },
+        data: {
+          ticketId: updatedTicketId,
+          ticketType: newTicketType,
+          quantity: newQuantity,
+          totalPrice: newTotalPrice,
+        },
+        include: { event: true, ticket: true, user: true },
+      });
+  
+      return updatedBooking;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error("An unknown error occurred while updating the booking.");
       }
     }
-
-    // Recalculate total price based on the (possibly updated) ticket price and new quantity.
-    const newTotalPrice = new Decimal(ticketPrice).mul(new Decimal(newQuantity));
-
-    // Update the booking record with the new ticket reference (if changed), new quantity, and total price.
-    const updatedBooking = await prisma.booking.update({
-      where: { id: bookingId },
-      data: {
-        ticketId: updatedTicketId,
-        quantity: newQuantity,
-        totalPrice: newTotalPrice,
-      },
-      include: { event: true, ticket: true, user: true },
-    });
-
-    return updatedBooking;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      throw new Error("An unknown error occurred while updating the booking.");
-    }
   }
-}
+  
 
   static async getBookingsByEvent(eventId: string) {
     return await prisma.booking.findMany({

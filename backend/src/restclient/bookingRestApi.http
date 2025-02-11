@@ -18,15 +18,15 @@ GET http://localhost:3000/api/bookings/80c6a27c-8786-4d69-86b4-d2480f8446c3
 Content-Type: application/json
 
 ### Cancel a Booking
-DELETE http://localhost:3000/api/bookings/80c6a27c-8786-4d69-86b4-d2480f8446c3
+DELETE http://localhost:3000/api/bookings/dd34e64b-2547-417c-adff-269a1e2ce224
 Content-Type: application/json
 
 ### Update a booking
-PUT http://localhost:3000/api/bookings/update/6a3d7dae-9075-4afb-a5e5-dc043304e35e
+PUT http://localhost:3000/api/bookings/update/21de62ef-54c0-4d4e-b764-e177370c6c13
 Content-Type: application/json
 
 {
-  "newQuantity": 3,
+  "newQuantity": 5,
   "newTicketType": "Single"
 }
 
