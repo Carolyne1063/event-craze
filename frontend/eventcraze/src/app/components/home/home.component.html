@@ -1,0 +1,157 @@
+<div class="relative w-full h-screen overflow-hidden">
+    <!-- Images -->
+    <div class="absolute inset-0">
+        <img *ngFor="let img of images; let i = index" [src]="img" [alt]="'Slide ' + i"
+            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+            [ngClass]="{ 'opacity-100': i === currentIndex, 'opacity-0': i !== currentIndex }" />
+    </div>
+
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+        <h1 class="text-4xl md:text-6xl font-bold text-white">
+            Discover Your Next Event
+        </h1>
+        <p class="mt-4 text-xl text-white">Find amazing events near you.</p>
+        <button class="mt-8 px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
+            Get Started
+        </button>
+    </div>
+
+    <!-- Previous & Next Buttons -->
+    <button (click)="prevSlide()"
+        class="absolute top-1/2 left-4 transform -translate-y-1/2 text-white bg-gray-800 bg-opacity-50 p-3 rounded-full hover:bg-opacity-80">
+        ❮
+    </button>
+    <button (click)="nextSlide()"
+        class="absolute top-1/2 right-4 transform -translate-y-1/2 text-white bg-gray-800 bg-opacity-50 p-3 rounded-full hover:bg-opacity-80">
+        ❯
+    </button>
+
+    <!-- Dots Indicators -->
+    <div class="absolute bottom-4 w-full flex justify-center space-x-2">
+        <button *ngFor="let img of images; let i = index" (click)="goToSlide(i)" class="h-3 w-3 rounded-full"
+            [ngClass]="{ 'bg-white': i === currentIndex, 'bg-gray-400': i !== currentIndex }"></button>
+    </div>
+</div>
+
+<section class="bg-gradient-to-r from-blue-100 to-blue-300 py-16 px-6 md:px-16">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-24 md:gap-40 lg:gap-56">
+
+        <!-- Left: Text Content -->
+        <div class="md:w-1/2 text-center md:text-left">
+            <h2 class="text-5xl font-extrabold text-blue-900 mb-6 animate-fade-in">
+                Welcome to <span class="text-blue-700">EventCraze</span> 🎉
+            </h2>
+            <p class="text-lg text-gray-700 leading-relaxed">
+                EventCraze is your <span class="font-bold">ultimate university event hub</span> 🎭.
+                From <span class="font-bold">tech fests to music nights</span>, we help students
+                <span class="font-bold">discover and create</span> unforgettable moments.
+            </p>
+            <button
+                class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition">
+                Explore Events 🎊
+            </button>
+        </div>
+
+        <!-- Right: Organic Shape Cards -->
+        <div class="md:w-1/2 grid grid-cols-2 gap-10 mt-10 md:mt-0 relative">
+            <div class="event-card shape-1 bounce">
+                <div class="glow"></div>
+                <img src="assets/uniparty.jpeg" class="card-image">
+            </div>
+
+            <div class="event-card shape-2 bounce">
+                <div class="glow"></div>
+                <img src="assets/unigrad.jpeg" class="card-image">
+            </div>
+
+            <div class="event-card shape-3 bounce">
+                <div class="glow"></div>
+                <img src="assets/unifriends.jpeg" class="card-image">
+            </div>
+
+            <div class="event-card shape-4 bounce">
+                <div class="glow"></div>
+                <img src="assets/unifun.jpeg" class="card-image">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<div class="container mx-auto px-6 py-10">
+    <h2 class="text-3xl font-bold text-blue-700 mb-6">Featured Events</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let event of events" 
+            class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+            
+            <img [src]="event.image" alt="Event Image" class="w-full h-64 object-cover">
+
+            <div class="p-5">
+                <h3 class="text-xl font-bold text-gray-800">{{ event.title }}</h3>
+                <p class="text-blue-600 font-semibold">{{ event.date }}</p>
+                <p class="text-gray-600 mt-2">{{ event.location }}</p>
+
+                <div class="mt-4 flex justify-between items-center">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        Book Ticket
+                    </button>
+                    <span class="text-gray-500 text-sm">{{ event.category }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="bg-gradient-to-b from-blue-50 to-blue-100 py-16">
+    <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center text-blue-900 mb-12">What Students Say</h2>
+
+        <div class="grid md:grid-cols-3 gap-10">
+            <!-- Testimonial 1 -->
+            <div class="bg-white p-8 rounded-full shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105">
+                <p class="text-gray-700 italic">"The Tech Symposium was a game-changer for me! I got to network with top
+                    engineers and even landed an internship!"</p>
+                <div class="mt-6 flex items-center">
+                    <img class="w-14 h-14 rounded-full border-2 border-blue-500" src="assets/profile1.jpeg" alt="Student">
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-blue-700">Alex Johnson</h4>
+                        <p class="text-gray-500 text-sm">MIT, Computer Science</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="bg-white p-8 rounded-full shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105">
+                <p class="text-gray-700 italic">"University Music Fest was the best night of my college life! Great
+                    music, great people, and an unforgettable vibe!"</p>
+                <div class="mt-6 flex items-center">
+                    <img class="w-14 h-14 rounded-full border-2 border-blue-500" src="assets/profile3.jpeg" alt="Student">
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-blue-700">Sophia Lee</h4>
+                        <p class="text-gray-500 text-sm">Stanford, Arts & Music</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="bg-white p-8 rounded-full shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105">
+                <p class="text-gray-700 italic">"The AI & Robotics Expo inspired me to build my first robot. It was
+                    truly an eye-opening experience!"</p>
+                <div class="mt-6 flex items-center">
+                    <img class="w-14 h-14 rounded-full border-2 border-blue-500" src="assets/profile2.jpeg" alt="Student">
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-blue-700">Daniel Kim</h4>
+                        <p class="text-gray-500 text-sm">Harvard, Robotics Engineering</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
