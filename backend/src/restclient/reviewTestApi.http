@@ -1,0 +1,31 @@
+### Create a Review
+POST http://localhost:3000/api/reviews/create
+Content-Type: application/json
+
+{
+  "userId": "7d882998-cbe2-4e8a-af8f-2abe3695c3e0",
+  "eventId": "9f3810f4-f919-4338-80f1-4e7e585b4814",
+  "rating": 5,
+  "comment": "Great event!"
+}
+
+### Get a Review by ID
+GET http://localhost:3000/api/reviews/2679ee69-2a81-4a87-a461-0ed246bf4b70
+
+### Get All Reviews for an Event
+GET http://localhost:3000/api/reviews/event/9f3810f4-f919-4338-80f1-4e7e585b4814
+
+### Get All Reviews
+GET http://localhost:3000/api/reviews/
+
+### Update a Review
+PUT http://localhost:3000/api/reviews/update/2679ee69-2a81-4a87-a461-0ed246bf4b70
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "comment": "Actually, it was good but not perfect."
+}
+
+### Delete a Review
+DELETE http://localhost:3000/api/reviews/delete/2679ee69-2a81-4a87-a461-0ed246bf4b70
