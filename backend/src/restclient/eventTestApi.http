@@ -3,11 +3,11 @@ POST http://localhost:3000/api/events/create
 Content-Type: application/json
 
 {
-  "eventName": "Tech Conference 2025",
+  "eventName": "Raha tbdeleted",
   "date": "2025-09-15T10:00:00.000Z",
   "time": "10:00 AM",
-  "location": "Nairobi, Kenya",
-  "description": "A conference for technology enthusiasts.",
+  "location": "Chuka, Kenya",
+  "description": "An event for chuka comrades to have fun",
   "totalTickets": 500
 }
 
@@ -15,9 +15,9 @@ Content-Type: application/json
 GET http://localhost:3000/api/events/
 
 ### Get a Single Event by ID
-GET http://localhost:3000/api/events/6e067143-9931-448b-8224-3a9ffb7a3392
+GET http://localhost:3000/api/events/9f3810f4-f919-4338-80f1-4e7e585b4814
 ### Update an Event
-PUT http://localhost:3000/api/events/6e067143-9931-448b-8224-3a9ffb7a3392
+PUT http://localhost:3000/api/events/fe976351-a6df-4131-8112-65365b46c849
 Content-Type: application/json
 
 {
@@ -30,4 +30,4 @@ Content-Type: application/json
 }
 
 ### Delete an Event
-DELETE http://localhost:3000/api/events/6e067143-9931-448b-8224-3a9ffb7a3392
+DELETE http://localhost:3000/api/events/fe976351-a6df-4131-8112-65365b46c849

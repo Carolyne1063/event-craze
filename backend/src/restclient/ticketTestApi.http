@@ -3,27 +3,27 @@ POST http://localhost:3000/api/tickets/create
 Content-Type: application/json
 
 {
-  "eventId": "8e67efea-dfe2-4a6b-9460-9e52850344f7",
-  "type": "Group of 5",
+  "eventId": "9f3810f4-f919-4338-80f1-4e7e585b4814",
+  "type": "VIP",
   "quantity": 200,
-  "price": 500.00
+  "price": 100.00
 }
 
 ### Update a ticket by ID
-PUT http://localhost:3000/api/tickets/update/c9da4bfc-0b99-422b-8e1a-e629c0ac15ff
+PUT http://localhost:3000/api/tickets/update/82749b45-557d-4469-890a-72656c410cdc
 Content-Type: application/json
 
 {
-  "type": "Group of 5",
-  "quantity": 200,
-  "price": 500.00
+  "type": "Single",
+  "quantity": 300,
+  "price": 100.00
 }
 
 ### Delete a ticket by ID
-DELETE http://localhost:3000/api/tickets/delete/c9da4bfc-0b99-422b-8e1a-e629c0ac15ff
+DELETE http://localhost:3000/api/tickets/delete/eab4c9ee-ac13-448a-beeb-884a0737a1d6
 
 ### Fetch all tickets for a specific event
-GET http://localhost:3000/api/tickets/event/8e67efea-dfe2-4a6b-9460-9e52850344f7
+GET http://localhost:3000/api/tickets/event/9f3810f4-f919-4338-80f1-4e7e585b4814
 
 ### Fetch a single ticket by ID
-GET http://localhost:3000/api/tickets/c9da4bfc-0b99-422b-8e1a-e629c0ac15ff
+GET http://localhost:3000/api/tickets/b951a73d-a4a2-4e57-adb3-1fd59bd23c5d

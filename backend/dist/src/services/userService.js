@@ -7,12 +7,13 @@ exports.UserService = void 0;
 const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const mailService_1 = __importDefault(require("./mailService")); // adjust the import path as needed
 const prisma = new client_1.PrismaClient();
 class UserService {
     // Register a new user
     async registerUser(firstName, lastName, phoneNo, email, password, role = 'USER') {
         const hashedPassword = await bcrypt_1.default.hash(password, 10);
-        return prisma.user.create({
+        const user = await prisma.user.create({
             data: {
                 firstName,
                 lastName,
@@ -22,6 +23,9 @@ class UserService {
                 role: role || "USER",
             },
         });
+        // Send a welcome email to the new user.
+        await mailService_1.default.sendWelcomeEmail(user.email, user.firstName);
+        return user;
     }
     // Login user
     async loginUser(email, password) {

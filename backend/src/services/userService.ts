@@ -1,15 +1,23 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import MailService from './mailService'; // adjust the import path as needed
 
 const prisma = new PrismaClient();
 
 export class UserService {
   // Register a new user
-  async registerUser(firstName: string, lastName: string, phoneNo: string, email: string, password: string, role: 'USER' | 'ADMIN' = 'USER') {
+  async registerUser(
+    firstName: string,
+    lastName: string,
+    phoneNo: string,
+    email: string,
+    password: string,
+    role: 'USER' | 'ADMIN' = 'USER'
+  ) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    return prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         firstName,
         lastName,
@@ -19,6 +27,11 @@ export class UserService {
         role: role || "USER",
       },
     });
+
+    // Send a welcome email to the new user.
+    await MailService.sendWelcomeEmail(user.email, user.firstName);
+
+    return user;
   }
 
   // Login user
