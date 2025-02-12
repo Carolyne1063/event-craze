@@ -175,6 +175,8 @@ class BookingService {
                 },
                 include: { event: true, ticket: true, user: true },
             });
+            await mailService_1.default.sendBookingUpdatedEmail(updatedBooking.user.email, updatedBooking);
+            return updatedBooking;
             return updatedBooking;
         }
         catch (error) {

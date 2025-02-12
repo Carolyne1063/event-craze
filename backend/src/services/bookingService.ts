@@ -193,6 +193,9 @@ class BookingService {
         },
         include: { event: true, ticket: true, user: true },
       });
+      await MailService.sendBookingUpdatedEmail(updatedBooking.user.email, updatedBooking);
+
+      return updatedBooking;
 
       return updatedBooking;
     } catch (error) {

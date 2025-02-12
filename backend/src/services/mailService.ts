@@ -59,6 +59,21 @@ class MailService {
     const html = `<p>Your booking for the event "<strong>${bookingDetails.event.eventName}</strong>" has been cancelled.</p>`;
     return this.sendMail(email, subject, text, html);
   }
+
+  // In MailService class
+
+// Send a booking update email.
+async sendBookingUpdatedEmail(email: string, bookingDetails: any) {
+  const subject = "Booking Updated - EventCraze";
+  const text = `Your booking has been updated.\nBooking details: ${JSON.stringify(bookingDetails, null, 2)}`;
+  const html = `<p>Your booking has been updated.</p>
+                <p>Booking details:</p>
+                <pre>${JSON.stringify(bookingDetails, null, 2)}</pre>`;
+  return this.sendMail(email, subject, text, html);
 }
+
+}
+
+
 
 export default new MailService();
