@@ -12,7 +12,7 @@ export class HomeComponent {
   images: string[] = [
     'assets/hero1.jpeg',
     'assets/hero2.jpeg',
-    ''
+    'assets/hero33.jpeg'
   ];
 
   currentIndex = 0;
