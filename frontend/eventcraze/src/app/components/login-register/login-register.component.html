@@ -1,9 +1,14 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="relative w-full max-w-4xl p-8 bg-white shadow-lg rounded-lg flex">
+    <div class="relative w-full max-w-4xl p-8 bg-white shadow-lg rounded-lg flex transition-all duration-500" [ngClass]="{'flex-row-reverse': !isLoginActive}">
+      
+      <!-- Image Section -->
       <div class="w-1/2 flex flex-col items-center justify-center bg-gray-200 p-6">
-        <img src="https://i.pinimg.com/474x/eb/95/f2/eb95f21ddc2103c80dab7e4e6782cb1f.jpg" alt="Auth Image" class="w-full max-w-xs rounded-lg shadow-md">
+        <img *ngIf="isLoginActive" src="assets/register.jpeg" alt="Login Image" class="w-full max-w-xs rounded-lg shadow-md transition-all duration-500">
+        <img *ngIf="!isLoginActive" src="assets/login.jpeg" alt="Register Image" class="w-full max-w-xs rounded-lg shadow-md transition-all duration-500">
       </div>
-      <div class="w-1/2 p-6" [ngClass]="{'hidden': isLoginActive}">
+      
+      <!-- Register Form -->
+      <div class="w-1/2 p-6 transition-all duration-500" *ngIf="!isLoginActive">
         <h1 class="text-2xl font-bold text-center mb-4">Create Account</h1>
         <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-4">
           <div *ngIf="registerForm.invalid && registerForm.touched" class="text-red-500 text-sm text-center">Please fill in all fields correctly.</div>
@@ -16,7 +21,9 @@
           <p class="text-center">Already have an account? <a (click)="toggleForm()" class="text-blue-500 cursor-pointer">Login</a></p>
         </form>
       </div>
-      <div class="w-1/2 p-6" [ngClass]="{'hidden': !isLoginActive}">
+      
+      <!-- Login Form -->
+      <div class="w-1/2 p-6 transition-all duration-500" *ngIf="isLoginActive">
         <h1 class="text-2xl font-bold text-center mb-4">Login Now</h1>
         <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-4">
           <div *ngIf="loginForm.invalid && loginForm.touched" class="text-red-500 text-sm text-center">Please fill in all fields correctly.</div>
