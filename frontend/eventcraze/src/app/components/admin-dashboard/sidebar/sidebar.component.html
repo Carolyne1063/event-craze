@@ -1,0 +1,14 @@
+<aside class="h-screen bg-blue-900 text-white p-5 w-64 transition-all duration-300 fixed left-0 top-0 flex flex-col"
+    [ngClass]="{'w-16 p-2': isCollapsed}" id="sidebar">
+    <button class="text-white text-2xl mb-5 self-end" (click)="toggleSidebar()">☰</button>
+    <nav>
+        <ul>
+            <li><a routerLink="dashboard" routerLinkActive="bg-blue-700" class="block p-3 rounded-lg">Dashboard</a></li>
+            <li><a routerLink="events" routerLinkActive="bg-blue-700" class="block p-3 rounded-lg">Events</a></li>
+            <li><a routerLink="users" routerLinkActive="bg-blue-700" class="block p-3 rounded-lg">Users</a></li>
+            <li><a routerLink="bookings" routerLinkActive="bg-blue-700" class="block p-3 rounded-lg">Bookings</a></li>
+            <li><a routerLink="settings" routerLinkActive="bg-blue-700" class="block p-3 rounded-lg">Settings</a></li>
+
+        </ul>
+    </nav>
+</aside>
