@@ -8,6 +8,10 @@ import { EventsComponent } from './components/admin-dashboard/events/events.comp
 import { UsersComponent } from './components/admin-dashboard/users/users.component';
 import { BookingsComponent } from './components/admin-dashboard/bookings/bookings.component';
 import { SettingsComponent } from './components/admin-dashboard/settings/settings.component';
+import { MyBookingsComponent } from './components/user-dashboard/my-bookings/my-bookings.component';
+import { UserSettingsComponent } from './components/user-dashboard/user-settings/user-settings.component';
+import { UserEventsComponent } from './components/user-dashboard/user-events/user-events.component';
+
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -22,7 +26,14 @@ export const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' } 
         ]
     },
-    { path: 'user', component: UserDashboardComponent},
+    { path: 'user', component: UserDashboardComponent,
+        children: [
+            { path: 'events', component: UserEventsComponent },
+            { path: 'bookings', component: MyBookingsComponent },
+            { path: 'settings', component: UserSettingsComponent },
+            { path: '', redirectTo: 'events', pathMatch: 'full' } 
+        ] 
+    },
     { path: '**', redirectTo: 'home' }
 
 ];
