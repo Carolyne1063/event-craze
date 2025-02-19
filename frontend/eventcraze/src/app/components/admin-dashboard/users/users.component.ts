@@ -21,7 +21,9 @@ interface User {
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
-  users: User[] = [
+  searchQuery: string = '';
+
+   users: User[] = [
     {
       id: '1',
       firstname: 'John',
@@ -68,5 +70,11 @@ export class UsersComponent {
 
   selectUser(user: User) {
     this.selectedUser = user; // Update user details dynamically
+  }
+
+  filteredUsers() {
+    return this.users.filter(user => 
+      `${user.firstname} ${user.lastname}`.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
   }
 }
