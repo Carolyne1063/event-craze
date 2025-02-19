@@ -51,37 +51,59 @@ export class MyBookingsComponent {
 
   selectedBooking: any = null;
   cancelBookingId: number | null = null;
+  showUpdateForm = false;
+
+  // ✅ Define available ticket types here
+  ticketTypes = ['VIP', 'General', 'Standard', 'Premium'];
+  showCancelConfirmation!: boolean;
 
   openUpdateForm(booking: any) {
-    this.selectedBooking = { ...booking };
+    this.selectedBooking = { 
+      id: booking.id, 
+      ticketType: booking.ticketType, 
+      quantity: booking.quantity 
+    };
+    this.showUpdateForm = true; 
   }
 
-  saveUpdatedBooking() {
-    this.bookings = this.bookings.map(b =>
-      b.id === this.selectedBooking.id ? { ...this.selectedBooking } : b
+  updateBooking() {
+    this.bookings = this.bookings.map(booking => 
+      booking.id === this.selectedBooking.id 
+        ? { ...booking, ticketType: this.selectedBooking.ticketType, quantity: this.selectedBooking.quantity } 
+        : booking
     );
-    this.selectedBooking = null;
+    this.showUpdateForm = false;
   }
+  
 
+  // Cancel Update
   cancelUpdate() {
     this.selectedBooking = null;
   }
 
+  // Open Cancel Form
   openCancelForm(id: number) {
     this.cancelBookingId = id;
+    this.showCancelConfirmation = true;
   }
 
+  // Confirm Cancel Booking
   confirmCancelBooking() {
+    if (this.cancelBookingId === null) return;
     this.bookings = this.bookings.map(b =>
       b.id === this.cancelBookingId ? { ...b, status: 'Cancelled' } : b
     );
     this.cancelBookingId = null;
+    this.showCancelConfirmation = false;
   }
 
+  // Cancel the Cancel Form
   cancelCancelBooking() {
     this.cancelBookingId = null;
+    this.showCancelConfirmation = false;
   }
 
+  // Navigate to Events
   navigateToEvents() {
     console.log('Redirecting to events...');
   }
