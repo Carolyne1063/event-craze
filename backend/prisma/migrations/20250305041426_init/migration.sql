@@ -1,0 +1,32 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- CreateTable
+CREATE TABLE [dbo].[Payment] (
+    [id] NVARCHAR(1000) NOT NULL,
+    [phoneNo] NVARCHAR(1000) NOT NULL,
+    [trnxId] NVARCHAR(1000) NOT NULL,
+    [amount] DECIMAL(10,2) NOT NULL,
+    [status] NVARCHAR(1000) NOT NULL,
+    [bookingId] NVARCHAR(1000),
+    [createdAt] DATETIME2 NOT NULL CONSTRAINT [Payment_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
+    [updatedAt] DATETIME2 NOT NULL,
+    CONSTRAINT [Payment_pkey] PRIMARY KEY CLUSTERED ([id])
+);
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Payment] ADD CONSTRAINT [Payment_bookingId_fkey] FOREIGN KEY ([bookingId]) REFERENCES [dbo].[Booking]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

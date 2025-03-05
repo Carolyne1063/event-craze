@@ -65,6 +65,7 @@ model Booking {
   ticketType  String 
   quantity  Int      
   totalPrice Decimal  
+  payments  Payment[]
   createdAt DateTime @default(now())  
   updatedAt DateTime @updatedAt  
 }
@@ -80,3 +81,16 @@ model Review {
   createdAt DateTime @default(now())  
   updatedAt DateTime @updatedAt  
 }
+
+model Payment {
+  id        String         @id @default(uuid())
+  phoneNo    String
+  trnxId    String
+  amount    Decimal        @db.Decimal(10, 2)
+  status    String
+  bookingId String?        // Optional: Link this payment to a booking, if available.
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  booking   Booking?      @relation(fields: [bookingId], references: [id])
+}
+
