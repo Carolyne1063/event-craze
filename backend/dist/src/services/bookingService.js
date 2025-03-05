@@ -6,48 +6,62 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const library_1 = require("@prisma/client/runtime/library");
 const mailService_1 = __importDefault(require("./mailService")); // adjust path as needed
+const paymentService_1 = __importDefault(require("./paymentService"));
 const prisma = new client_1.PrismaClient();
 class BookingService {
-    // Create a booking and return its details including the ticketType.
     static async createBooking(userId, eventId, ticketType, quantity) {
         try {
+            // Find the ticket type for the event
             const ticket = await prisma.ticket.findFirst({
                 where: { eventId, type: ticketType },
             });
-            if (!ticket) {
+            if (!ticket)
                 throw new Error("Ticket type not found for this event.");
-            }
-            if (ticket.quantity < quantity) {
+            if (ticket.quantity < quantity)
                 throw new Error("Not enough tickets available.");
-            }
+            // Calculate the total price using Decimal arithmetic
             const totalPrice = new library_1.Decimal(ticket.price).mul(new library_1.Decimal(quantity));
+            // Create the booking and include related user, event, and ticket details
             const booking = await prisma.booking.create({
                 data: {
                     userId,
                     eventId,
                     ticketId: ticket.id,
-                    ticketType, // stored in the booking record
+                    ticketType, // store ticket type in booking
                     quantity,
                     totalPrice,
                 },
                 include: { ticket: true, event: true, user: true },
             });
+            // Deduct the booked tickets from the available quantity
             await prisma.ticket.update({
                 where: { id: ticket.id },
                 data: { quantity: { decrement: quantity } },
             });
-            // Send a booking confirmation email using the user's email.
-            // (Ensure that booking.user is populated by the include clause.)
+            // Send confirmation email to the user
             await mailService_1.default.sendBookingConfirmation(booking.user.email, booking);
+            // Initiate the MPESA payment if the user has a phone number
+            if (booking.user.phoneNo) {
+                try {
+                    const paymentResponse = await paymentService_1.default.initiateSTKPush(booking.user.phoneNo, Number(booking.totalPrice));
+                    console.log("MPESA payment initiated:", paymentResponse);
+                    // Optionally, you can update the booking record with payment details here.
+                }
+                catch (paymentError) {
+                    console.error("Error initiating MPESA payment:", paymentError.message);
+                    // Depending on your business logic, you could rollback the booking or mark it as pending payment.
+                }
+            }
+            else {
+                console.warn("User phone number not available for MPESA payment.");
+            }
             return booking;
         }
         catch (error) {
-            if (error instanceof Error) {
+            if (error instanceof Error)
                 throw new Error(error.message);
-            }
-            else {
+            else
                 throw new Error("An unknown error occurred while creating the booking.");
-            }
         }
     }
     static async getBookingsByUser(userId) {

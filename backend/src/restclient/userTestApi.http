@@ -26,14 +26,14 @@ GET http://localhost:3000/api/users/7d882998-cbe2-4e8a-af8f-2abe3695c3e0
 GET http://localhost:3000/api/users
 
 ###Update user
-PUT http://localhost:3000/api/users/8aa9e673-8348-4380-9041-61ed5080315c
+PUT http://localhost:3000/api/users/7d882998-cbe2-4e8a-af8f-2abe3695c3e0
 Content-Type: application/json
 
 {
-  "firstName": "UpdatedFirstName",
-  "lastName": "UpdatedLastName",
-  "phoneNo": "0987654321",
-  "email": "updatedemail@example.com",
+  "firstName": "Carol",
+  "lastName": "Martin",
+  "phoneNo": "111997539",
+  "email": "carolmartoz1063@gmail.com",
   "password": "NewSecurePassword"
 }
 
