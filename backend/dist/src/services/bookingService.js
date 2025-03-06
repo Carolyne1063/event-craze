@@ -111,20 +111,10 @@ class BookingService {
             }
         }
     }
-    /**
-     * Update a booking by changing the ticket type and/or quantity.
-     * - If a new ticket type is provided:
-     *   1. Restore the old ticket’s booked quantity.
-     *   2. Look up the new Ticket record for the event by its type.
-     *   3. Verify available quantity and deduct the requested amount.
-     *   4. Use the new ticket’s price for recalculation.
-     * - Otherwise, adjust the quantity on the current ticket.
-     * The updated booking is returned with event, ticket, and user details.
-     */
     static async updateBooking(bookingId, newQuantity, newTicketType) {
         try {
             if (newQuantity === undefined || newQuantity === null || newQuantity <= 0) {
-                throw new Error("New quantity must be provided and be greater than 0.");
+                throw new Error("New quantity must be greater than 0.");
             }
             const booking = await prisma.booking.findUnique({
                 where: { id: bookingId },
@@ -136,22 +126,24 @@ class BookingService {
             const oldQuantity = booking.quantity;
             let updatedTicketId = currentTicket.id;
             let ticketPrice = currentTicket.price;
-            if (newTicketType) {
-                if (newTicketType !== currentTicket.type) {
-                    await prisma.ticket.update({
-                        where: { id: currentTicket.id },
-                        data: { quantity: { increment: oldQuantity } },
-                    });
-                }
+            let newTotalPrice;
+            // Handle ticket type change
+            if (newTicketType && newTicketType !== currentTicket.type) {
+                // Restore old ticket stock
+                await prisma.ticket.update({
+                    where: { id: currentTicket.id },
+                    data: { quantity: { increment: oldQuantity } },
+                });
+                // Fetch new ticket details
                 const newTicket = await prisma.ticket.findFirst({
                     where: { eventId: booking.eventId, type: newTicketType },
                 });
-                if (!newTicket) {
-                    throw new Error("New ticket type not found for this event.");
-                }
+                if (!newTicket)
+                    throw new Error("New ticket type not found.");
                 if (newTicket.quantity < newQuantity) {
-                    throw new Error("Not enough tickets available for the new ticket type.");
+                    throw new Error("Not enough tickets available for the new type.");
                 }
+                // Deduct new ticket quantity
                 await prisma.ticket.update({
                     where: { id: newTicket.id },
                     data: { quantity: { decrement: newQuantity } },
@@ -160,6 +152,7 @@ class BookingService {
                 ticketPrice = newTicket.price;
             }
             else {
+                // Adjust only quantity for the same ticket type
                 if (newQuantity > oldQuantity) {
                     const additionalNeeded = newQuantity - oldQuantity;
                     if (currentTicket.quantity < additionalNeeded) {
@@ -178,12 +171,31 @@ class BookingService {
                     });
                 }
             }
-            const newTotalPrice = new library_1.Decimal(ticketPrice).mul(new library_1.Decimal(newQuantity));
+            // Calculate new total price
+            newTotalPrice = new library_1.Decimal(ticketPrice).mul(new library_1.Decimal(newQuantity));
+            // Compare old and new price
+            const priceDifference = newTotalPrice.sub(booking.totalPrice);
+            if (priceDifference.gt(0)) {
+                // User needs to pay more
+                try {
+                    const paymentResponse = await paymentService_1.default.initiateSTKPush(booking.user.phoneNo, Number(priceDifference));
+                    console.log("MPESA additional payment initiated:", paymentResponse);
+                }
+                catch (paymentError) {
+                    console.error("Error initiating MPESA payment:", paymentError.message);
+                    throw new Error("Payment failed. Booking update cannot proceed.");
+                }
+            }
+            else if (priceDifference.lt(0)) {
+                // Optional: Handle refunds if necessary
+                console.warn("Price reduced. Consider issuing a refund.");
+            }
+            // Update booking details in the database
             const updatedBooking = await prisma.booking.update({
                 where: { id: bookingId },
                 data: {
                     ticketId: updatedTicketId,
-                    ticketType: newTicketType ? newTicketType : currentTicket.type,
+                    ticketType: newTicketType || booking.ticketType,
                     quantity: newQuantity,
                     totalPrice: newTotalPrice,
                 },
@@ -191,15 +203,12 @@ class BookingService {
             });
             await mailService_1.default.sendBookingUpdatedEmail(updatedBooking.user.email, updatedBooking);
             return updatedBooking;
-            return updatedBooking;
         }
         catch (error) {
-            if (error instanceof Error) {
+            if (error instanceof Error)
                 throw new Error(error.message);
-            }
-            else {
-                throw new Error("An unknown error occurred while updating the booking.");
-            }
+            else
+                throw new Error("An error occurred while updating the booking.");
         }
     }
     static async getBookingsByEvent(eventId) {

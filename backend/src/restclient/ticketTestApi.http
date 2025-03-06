@@ -3,8 +3,8 @@ POST http://localhost:3000/api/tickets/create
 Content-Type: application/json
 
 {
-  "eventId": "24cf38ea-f45a-4ccf-a680-72de404c3f5b",
-  "type": "VIP",
+  "eventId": "d1244b99-d6f3-46c2-97ae-a7f41823b3ed",
+  "type": "Single",
   "quantity": 50,
   "price": 1.00
 }

@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "userId": "7d882998-cbe2-4e8a-af8f-2abe3695c3e0",
-  "eventId": "24cf38ea-f45a-4ccf-a680-72de404c3f5b",
+  "eventId": "d1244b99-d6f3-46c2-97ae-a7f41823b3ed",
   "ticketType": "VIP",
   "quantity": 1
 }
@@ -22,11 +22,11 @@ DELETE http://localhost:3000/api/bookings/6a62099e-1282-4680-ac39-a5060827921d
 Content-Type: application/json
 
 ### Update a Booking
-PUT http://localhost:3000/api/bookings/update/a5226da9-ac6a-4e19-976c-ed9597cf765b
+PUT http://localhost:3000/api/bookings/update/0da452c9-1f24-4988-a2ce-d64de6a89ba0
 Content-Type: application/json
 
 {
-  "newQuantity": 5,
+  "newQuantity": 1,
   "newTicketType": "Single"
 }
 
