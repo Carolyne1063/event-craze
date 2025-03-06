@@ -52,6 +52,8 @@ export class MyBookingsComponent {
   selectedBooking: any = null;
   cancelBookingId: number | null = null;
   showUpdateForm = false;
+  showRefundMessage = false; // ✅ Added this
+
 
   // ✅ Define available ticket types here
   ticketTypes = ['VIP', 'General', 'Standard', 'Premium'];
@@ -95,12 +97,17 @@ export class MyBookingsComponent {
     );
     this.cancelBookingId = null;
     this.showCancelConfirmation = false;
+    this.showRefundMessage = true; // ✅ Show refund message after cancellation
   }
 
   // Cancel the Cancel Form
   cancelCancelBooking() {
     this.cancelBookingId = null;
     this.showCancelConfirmation = false;
+  }
+
+  closeRefundMessage() {
+    this.showRefundMessage = false; // ✅ Added this method to close refund popup
   }
 
   // Navigate to Events

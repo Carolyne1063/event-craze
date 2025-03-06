@@ -42,31 +42,6 @@
         </div>
     </div>
 
-    <div *ngIf="showUpdateForm" class="fixed inset-0 flex items-center justify-center bg-black/50">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Update Booking</h3>
-    
-            <!-- Ticket Type -->
-            <label class="block text-sm font-semibold text-gray-600">Ticket Type</label>
-            <select [(ngModel)]="selectedBooking.ticketType"
-                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option *ngFor="let type of ticketTypes" [value]="type">{{ type }}</option>
-            </select>
-    
-            <!-- Quantity -->
-            <label class="block text-sm font-semibold text-gray-600 mt-4">Quantity</label>
-            <input type="number" [(ngModel)]="selectedBooking.quantity"
-                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" min="1">
-    
-            <!-- Action Buttons -->
-            <div class="flex justify-end gap-3 mt-5">
-                <button (click)="updateBooking()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Save</button>
-                <button (click)="showUpdateForm = false" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500">Cancel</button>
-            </div>
-        </div>
-    </div>
-    
-
     <!-- Cancel Confirmation Modal -->
     <div *ngIf="cancelBookingId !== null" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
@@ -76,6 +51,15 @@
                 <button (click)="confirmCancelBooking()" class="bg-red-500 text-white px-4 py-2 rounded-lg">Yes, Cancel</button>
                 <button (click)="cancelCancelBooking()" class="bg-gray-400 text-white px-4 py-2 rounded-lg">No</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Refund Processing Modal -->
+    <div *ngIf="showRefundMessage" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+            <h3 class="text-xl font-semibold mb-4">Cancellation Fee Applied</h3>
+            <p class="text-gray-600 mb-4">A cancellation fee has been deducted, and your refund is being processed.</p>
+            <button (click)="closeRefundMessage()" class="bg-blue-500 text-white px-4 py-2 rounded-lg">OK</button>
         </div>
     </div>
 
