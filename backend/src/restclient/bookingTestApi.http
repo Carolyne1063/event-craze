@@ -1,32 +1,12 @@
-### Test MPESA STK Push Directly
-POST http://localhost:3000/stk
-Content-Type: application/json
-
-{
-  "phone": "111997539",
-  "amount": 1
-}
-
 ### Create a Booking and Trigger MPESA Payment
 POST http://localhost:3000/api/bookings/create
 Content-Type: application/json
 
 {
   "userId": "7d882998-cbe2-4e8a-af8f-2abe3695c3e0",
-  "eventId": "fb84b54a-0a14-407d-8d73-91c68734e4b9",
-  "ticketType": "Single",
+  "eventId": "24cf38ea-f45a-4ccf-a680-72de404c3f5b",
+  "ticketType": "VIP",
   "quantity": 1
-}
-
-### Create a Booking
-POST http://localhost:3000/api/bookings/create
-Content-Type: application/json
-
-{
-  "userId": "7d882998-cbe2-4e8a-af8f-2abe3695c3e0",
-  "eventId": "9f3810f4-f919-4338-80f1-4e7e585b4814",
-  "ticketType": "Group of 5",
-  "quantity": 3
 }
 
 ### Get Bookings by User
@@ -38,7 +18,7 @@ GET http://localhost:3000/api/bookings/5a54159c-42e6-4018-8fa8-bd34a31fd8ef
 Content-Type: application/json
 
 ### Cancel a Booking
-DELETE http://localhost:3000/api/bookings/5a54159c-42e6-4018-8fa8-bd34a31fd8ef
+DELETE http://localhost:3000/api/bookings/6a62099e-1282-4680-ac39-a5060827921d
 Content-Type: application/json
 
 ### Update a Booking
@@ -51,4 +31,5 @@ Content-Type: application/json
 }
 
 ### Get Bookings for a Specific Event
-GET http://localhost:3000/api/bookings/event/9f3810f4-f919-4338-80f1-4e7e585b4814
+GET http://localhost:3000/api/bookings/event/24cf38ea-f45a-4ccf-a680-72de404c3f5b
+

@@ -48,7 +48,7 @@ class PaymentService {
       PartyA: `254${phone}`,
       PartyB: shortcode,
       PhoneNumber: `254${phone}`,
-      CallBackURL: process.env.MPESA_CALLBACK_URL, // make sure to set this in your .env
+      CallBackURL: "https://b554-102-215-12-244.ngrok-free.app/callback", // make sure to set this in your .env
       AccountReference: `EventBooking-${phone}`,
       TransactionDesc: "Payment for event booking",
     };
