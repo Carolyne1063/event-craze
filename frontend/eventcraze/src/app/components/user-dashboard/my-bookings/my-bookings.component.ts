@@ -78,10 +78,11 @@ export class MyBookingsComponent {
   }
   
 
-  // Cancel Update
   cancelUpdate() {
-    this.selectedBooking = null;
-  }
+    this.showUpdateForm = false; // Hide the update form
+    this.selectedBooking = null; // Reset selected booking
+}
+
 
   // Open Cancel Form
   openCancelForm(id: number) {
