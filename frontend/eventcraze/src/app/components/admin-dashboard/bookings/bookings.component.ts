@@ -24,9 +24,9 @@ export class BookingsComponent {
       ],
       revenue: 12000,
       bookings: [
-        { name: "John Doe", email: "john@example.com", phone: "123-456-7890", imageUrl: "https://randomuser.me/api/portraits/men/1.jpg" },
-        { name: "Alice Smith", email: "alice@example.com", phone: "987-654-3210", imageUrl: "https://randomuser.me/api/portraits/women/3.jpg" }
-      ]
+        { name: "John Doe", email: "john@example.com", phone: "123-456-7890", imageUrl: "https://randomuser.me/api/portraits/men/1.jpg", canceled: false },
+        { name: "Alice Smith", email: "alice@example.com", phone: "987-654-3210", imageUrl: "https://randomuser.me/api/portraits/women/3.jpg", canceled: true }
+      ]      
     },
     {
       id: 2,
@@ -42,7 +42,7 @@ export class BookingsComponent {
       ],
       revenue: 8000,
       bookings: [
-        { name: "Jane Doe", email: "jane@example.com", phone: "456-789-1234", imageUrl: "https://randomuser.me/api/portraits/women/2.jpg" }
+        { name: "Jane Doe", email: "jane@example.com", phone: "456-789-1234", imageUrl: "https://randomuser.me/api/portraits/women/2.jpg", canceled: false } // Ensure canceled property exists
       ]
     }
   ];
