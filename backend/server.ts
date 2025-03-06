@@ -5,6 +5,7 @@ import eventRoutes from './src/routes/eventRoutes';
 import bookingRoutes from './src/routes/bookingRoutes';
 import ticketRoutes from './src/routes/ticketRoutes';
 import reviewRoutes from './src/routes/reviewRoutes';
+import notificationRoutes from './src/routes/notificationRoutes';
 import PaymentService from './src/services/paymentService';
 import { PrismaClient, Prisma } from '@prisma/client';
 import paymentRoutes from './src/routes/paymentRoutes';
@@ -21,6 +22,8 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/notifications", notificationRoutes);
+
 
 
 // Test endpoint for MPESA STK Push

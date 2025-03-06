@@ -15,18 +15,18 @@ Content-Type: application/json
 GET http://localhost:3000/api/events/
 
 ### Get a Single Event by ID
-GET http://localhost:3000/api/events/9f3810f4-f919-4338-80f1-4e7e585b4814
+GET http://localhost:3000/api/events/24cf38ea-f45a-4ccf-a680-72de404c3f5b
 ### Update an Event
-PUT http://localhost:3000/api/events/fe976351-a6df-4131-8112-65365b46c849
+PUT http://localhost:3000/api/events/24cf38ea-f45a-4ccf-a680-72de404c3f5b
 Content-Type: application/json
 
 {
-  "eventName": "Updated Tech Conference",
+  "eventName": "Updated RnB Test",
   "date": "2025-10-20T10:00:00.000Z",
   "time": "11:00 AM",
   "location": "Mombasa, Kenya",
-  "description": "An updated tech event.",
-  "totalTickets": 600
+  "description": "An updated RnB event.",
+  "totalTickets": 100
 }
 
 ### Delete an Event

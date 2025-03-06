@@ -10,6 +10,7 @@ const eventRoutes_1 = __importDefault(require("./src/routes/eventRoutes"));
 const bookingRoutes_1 = __importDefault(require("./src/routes/bookingRoutes"));
 const ticketRoutes_1 = __importDefault(require("./src/routes/ticketRoutes"));
 const reviewRoutes_1 = __importDefault(require("./src/routes/reviewRoutes"));
+const notificationRoutes_1 = __importDefault(require("./src/routes/notificationRoutes"));
 const paymentService_1 = __importDefault(require("./src/services/paymentService"));
 const client_1 = require("@prisma/client");
 const paymentRoutes_1 = __importDefault(require("./src/routes/paymentRoutes"));
@@ -24,6 +25,7 @@ app.use('/api/bookings', bookingRoutes_1.default);
 app.use('/api/tickets', ticketRoutes_1.default);
 app.use('/api/reviews', reviewRoutes_1.default);
 app.use("/api/payments", paymentRoutes_1.default);
+app.use("/api/notifications", notificationRoutes_1.default);
 // Test endpoint for MPESA STK Push
 app.post('/stk', async (req, res, next) => {
     const { phone, amount } = req.body;
