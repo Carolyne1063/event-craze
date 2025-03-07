@@ -11,7 +11,7 @@ const mailService_1 = __importDefault(require("./mailService")); // adjust the i
 const prisma = new client_1.PrismaClient();
 class UserService {
     // Register a new user
-    async registerUser(firstName, lastName, phoneNo, email, password, role = 'USER') {
+    async registerUser(firstName, lastName, phoneNo, email, password, image, role = 'USER') {
         const hashedPassword = await bcrypt_1.default.hash(password, 10);
         const user = await prisma.user.create({
             data: {
@@ -20,6 +20,7 @@ class UserService {
                 phoneNo,
                 email,
                 password: hashedPassword,
+                image,
                 role: role || "USER",
             },
         });

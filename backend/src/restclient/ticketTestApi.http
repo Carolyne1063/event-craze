@@ -3,7 +3,7 @@ POST http://localhost:3000/api/tickets/create
 Content-Type: application/json
 
 {
-  "eventId": "d1244b99-d6f3-46c2-97ae-a7f41823b3ed",
+  "eventId": "6fa941ec-b950-42fc-a931-5b1396162e09",
   "type": "Single",
   "quantity": 50,
   "price": 1.00
@@ -20,10 +20,10 @@ Content-Type: application/json
 }
 
 ### Delete a ticket by ID
-DELETE http://localhost:3000/api/tickets/delete/eab4c9ee-ac13-448a-beeb-884a0737a1d6
+DELETE http://localhost:3000/api/tickets/delete/9d54e0c6-e2a8-44b6-ae67-dc0e084ccaee
 
 ### Fetch all tickets for a specific event
-GET http://localhost:3000/api/tickets/event/8e67efea-dfe2-4a6b-9460-9e52850344f7
+GET http://localhost:3000/api/tickets/event/fb84b54a-0a14-407d-8d73-91c68734e4b9
 
 ### Fetch a single ticket by ID
 GET http://localhost:3000/api/tickets/b951a73d-a4a2-4e57-adb3-1fd59bd23c5d

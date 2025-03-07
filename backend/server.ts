@@ -40,6 +40,8 @@ app.post('/stk', async (req: Request, res: Response, next: NextFunction): Promis
 // MPESA Callback endpoint to save transaction details
 // MPESA Callback endpoint to save transaction details
 app.post('/callback', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  console.log("MPESA Response:", req.body);
+  res.status(200).send("Received");
   try {
     // Log the complete callback payload for debugging
     console.log('--- Callback Payload Start ---');

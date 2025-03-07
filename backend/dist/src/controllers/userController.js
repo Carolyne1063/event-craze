@@ -7,8 +7,8 @@ class UserController {
     // Register User
     async register(req, res) {
         try {
-            const { firstName, lastName, phoneNo, email, password, role } = req.body;
-            const user = await userService.registerUser(firstName, lastName, phoneNo, email, password, role);
+            const { firstName, lastName, phoneNo, email, password, image, role } = req.body;
+            const user = await userService.registerUser(firstName, lastName, phoneNo, email, password, image, role);
             res.status(201).json({ message: 'User registered successfully', user });
         }
         catch (error) {

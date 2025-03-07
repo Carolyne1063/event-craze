@@ -28,4 +28,4 @@ Content-Type: application/json
 }
 
 ### Delete a Review
-DELETE http://localhost:3000/api/reviews/delete/2679ee69-2a81-4a87-a461-0ed246bf4b70
+DELETE http://localhost:3000/api/reviews/delete/bed1b982-2631-40b2-83f2-cab31d095168

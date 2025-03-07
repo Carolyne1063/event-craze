@@ -8,6 +8,7 @@ Content-Type: application/json
   "time": "10:00 AM",
   "location": "Chuka, Kenya",
   "description": "An event for chuka comrades to have fun",
+  "image": "https://i.pinimg.com/474x/7a/29/df/7a29dfc903d98c6ba13b687ef1fa1d1a.jpg",
   "totalTickets": 100
 }
 
@@ -17,11 +18,11 @@ GET http://localhost:3000/api/events/
 ### Get a Single Event by ID
 GET http://localhost:3000/api/events/24cf38ea-f45a-4ccf-a680-72de404c3f5b
 ### Update an Event
-PUT http://localhost:3000/api/events/24cf38ea-f45a-4ccf-a680-72de404c3f5b
+PUT http://localhost:3000/api/events/6fa941ec-b950-42fc-a931-5b1396162e09
 Content-Type: application/json
 
 {
-  "eventName": "Updated RnB Test",
+  "eventName": "Updated ABCDE",
   "date": "2025-10-20T10:00:00.000Z",
   "time": "11:00 AM",
   "location": "Mombasa, Kenya",
@@ -30,4 +31,4 @@ Content-Type: application/json
 }
 
 ### Delete an Event
-DELETE http://localhost:3000/api/events/fe976351-a6df-4131-8112-65365b46c849
+DELETE http://localhost:3000/api/events/fb84b54a-0a14-407d-8d73-91c68734e4b9

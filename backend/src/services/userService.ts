@@ -13,6 +13,7 @@ export class UserService {
     phoneNo: string,
     email: string,
     password: string,
+    image: string,
     role: 'USER' | 'ADMIN' = 'USER'
   ) {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -24,6 +25,7 @@ export class UserService {
         phoneNo,
         email,
         password: hashedPassword,
+        image,
         role: role || "USER",
       },
     });
@@ -68,7 +70,7 @@ export class UserService {
   }
 
   // Update user details
-  async updateUser(userId: string, data: Partial<{ firstName: string; lastName: string; phoneNo: string; email: string; password: string; role: 'USER' | 'ADMIN' }>) {
+  async updateUser(userId: string, data: Partial<{ firstName: string; lastName: string; phoneNo: string; email: string; password: string; image: string; role: 'USER' | 'ADMIN' }>) {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 10);
     }
