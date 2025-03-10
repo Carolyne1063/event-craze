@@ -3,14 +3,14 @@ POST http://localhost:3000/api/bookings/create
 Content-Type: application/json
 
 {
-  "userId": "c4d38d10-34f1-4771-bec2-89ea39c64b6b",
+  "userId": "eb424526-ef99-47a0-afff-798b08e74207",
   "eventId": "6fa941ec-b950-42fc-a931-5b1396162e09",
   "ticketType": "Single",
   "quantity": 1
 }
 
 ### Get Bookings by User
-GET http://localhost:3000/api/bookings/c4d38d10-34f1-4771-bec2-89ea39c64b6b
+GET http://localhost:3000/api/bookings/92f75fdb-9c2a-40f7-910f-2854f4c5781d
 Content-Type: application/json
 
 ### Get a Booking by ID
@@ -18,18 +18,21 @@ GET http://localhost:3000/api/bookings/5a54159c-42e6-4018-8fa8-bd34a31fd8ef
 Content-Type: application/json
 
 ### Cancel a Booking
-DELETE http://localhost:3000/api/bookings/21de62ef-54c0-4d4e-b764-e177370c6c13
+DELETE http://localhost:3000/api/bookings/e371cd1b-3604-47a6-9a7f-e92e92098762
 Content-Type: application/json
 
 ### Update a Booking
-PUT http://localhost:3000/api/bookings/update/ef7a08ae-3a3f-4545-bbb4-23377a057645
+PUT http://localhost:3000/api/bookings/update/64cb29f3-a8e5-452b-b007-f0545cf19b32
 Content-Type: application/json
 
 {
-  "newQuantity": 2,
+  "newQuantity": 3,
   "newTicketType": "Single"
 }
 
 ### Get Bookings for a Specific Event
-GET http://localhost:3000/api/bookings/event/24cf38ea-f45a-4ccf-a680-72de404c3f5b
+GET http://localhost:3000/api/bookings/event/6fa941ec-b950-42fc-a931-5b1396162e09
+
+
+
 

@@ -11,12 +11,13 @@ import { SettingsComponent } from './components/admin-dashboard/settings/setting
 import { MyBookingsComponent } from './components/user-dashboard/my-bookings/my-bookings.component';
 import { UserSettingsComponent } from './components/user-dashboard/user-settings/user-settings.component';
 import { UserEventsComponent } from './components/user-dashboard/user-events/user-events.component';
-
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
-    { path: 'login', component: LoginRegisterComponent},
-    { path: 'admin', component: AdminDashboardComponent,
+    { path: 'login', component: LoginRegisterComponent },
+
+    { path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard], 
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'events', component: EventsComponent },
@@ -26,7 +27,8 @@ export const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' } 
         ]
     },
-    { path: 'user', component: UserDashboardComponent,
+
+    { path: 'user', component: UserDashboardComponent, canActivate: [AuthGuard], 
         children: [
             { path: 'events', component: UserEventsComponent },
             { path: 'bookings', component: MyBookingsComponent },
@@ -34,6 +36,6 @@ export const routes: Routes = [
             { path: '', redirectTo: 'events', pathMatch: 'full' } 
         ] 
     },
-    { path: '**', redirectTo: 'home' }
 
+    { path: '**', redirectTo: 'home' }
 ];
