@@ -3,10 +3,10 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "firstName": "Admin",
+  "firstName": "Admin to be deleted",
   "lastName": "Carol",
-  "phoneNo": "0799966816",
-  "email": "admin@example.com",
+  "phoneNo": "0799966886",
+  "email": "admintbd@example.com",
   "password": "password12345",
   "image": "https://i.pinimg.com/474x/ae/5d/ab/ae5dab044f196d0ac30ea7c152bd6249.jpg",
   "role": "ADMIN"
@@ -40,5 +40,5 @@ Content-Type: application/json
 }
 
 ###Delete user
-DELETE http://localhost:3000/api/users/92f75fdb-9c2a-40f7-910f-2854f4c5781d
+DELETE http://localhost:3000/api/auth/4084099c-9620-485c-8723-a40bf297c88a
 

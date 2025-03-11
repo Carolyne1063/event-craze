@@ -16,14 +16,16 @@ export class LoginRegisterComponent {
   loginForm: FormGroup;
   isLoginActive: boolean = true;
   errorMessage: string = '';
+  successMessage: string | undefined;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
-      firstname: ['', [Validators.required, Validators.minLength(2)]],
-      lastname: ['', [Validators.required, Validators.minLength(2)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      phoneNo: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      image: [''] // Added image field
     });
 
     this.loginForm = this.fb.group({
@@ -32,19 +34,26 @@ export class LoginRegisterComponent {
     });
   }
 
-  register(): void {
-    if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
-        next: (response) => {
-          alert('Registration Successful! Please log in.');
-          this.toggleForm(); // Switch to login form
-        },
-        error: (err) => {
-          this.errorMessage = err.error.message || 'Registration failed!';
-        }
-      });
-    }
+  register() {
+    const user = {
+      firstName: this.registerForm.value.firstName,
+      lastName: this.registerForm.value.lastName,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password,
+      phoneNo: this.registerForm.value.phoneNo,
+      image: this.registerForm.value.image
+    };
+  
+    this.authService.register(user).subscribe({
+      next: (response) => {
+        console.log('User registered successfully', response);
+      },
+      error: (error) => {
+        console.error('Registration error', error);
+      }
+    });
   }
+   
 
   login(): void {
     if (this.loginForm.valid) {

@@ -11,14 +11,14 @@
       <div class="w-1/2 p-6 transition-all duration-500" *ngIf="!isLoginActive">
         <h1 class="text-2xl font-bold text-center mb-4">Create Account</h1>
         <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-4">
-          <input type="text" formControlName="firstname" placeholder="First Name" class="w-full p-2 border rounded">
-          <div *ngIf="registerForm.controls['firstname'].touched && registerForm.controls['firstname'].invalid" class="text-red-500 text-sm">First name is required.</div>
-          <input type="text" formControlName="lastname" placeholder="Last Name" class="w-full p-2 border rounded">
-          <div *ngIf="registerForm.controls['lastname'].touched && registerForm.controls['lastname'].invalid" class="text-red-500 text-sm">Last name is required.</div>
-          <input type="text" formControlName="phoneNumber" placeholder="Phone Number" class="w-full p-2 border rounded">
-          <div *ngIf="registerForm.controls['phoneNumber'].touched && registerForm.controls['phoneNumber'].invalid" class="text-red-500 text-sm">
-            <small *ngIf="registerForm.controls['phoneNumber'].errors?.['required']">Phone number is required.</small>
-            <small *ngIf="registerForm.controls['phoneNumber'].errors?.['pattern']">Phone number must be exactly 10 digits.</small>
+          <input type="text" formControlName="firstName" placeholder="First Name" class="w-full p-2 border rounded">
+          <div *ngIf="registerForm.controls['firstName'].touched && registerForm.controls['firstName'].invalid" class="text-red-500 text-sm">First name is required.</div>
+          <input type="text" formControlName="lastName" placeholder="Last Name" class="w-full p-2 border rounded">
+          <div *ngIf="registerForm.controls['lastName'].touched && registerForm.controls['lastName'].invalid" class="text-red-500 text-sm">Last name is required.</div>
+          <input type="text" formControlName="phoneNo" placeholder="Phone Number" class="w-full p-2 border rounded">
+          <div *ngIf="registerForm.controls['phoneNo'].touched && registerForm.controls['phoneNo'].invalid" class="text-red-500 text-sm">
+            <small *ngIf="registerForm.controls['phoneNo'].errors?.['required']">Phone number is required.</small>
+            <small *ngIf="registerForm.controls['phoneNo'].errors?.['pattern']">Phone number must be exactly 10 digits.</small>
           </div>
           <input type="email" formControlName="email" placeholder="Email" class="w-full p-2 border rounded">
           <div *ngIf="registerForm.controls['email'].touched && registerForm.controls['email'].invalid" class="text-red-500 text-sm">
@@ -30,6 +30,10 @@
             <small *ngIf="registerForm.controls['password'].errors?.['required']">Password is required.</small>
             <small *ngIf="registerForm.controls['password'].errors?.['minlength']">Password must be at least 6 characters long.</small>
           </div>
+          <div class="space-y-2">
+            <label for="image" class="block text-sm font-medium text-gray-700">Profile Image (URL)</label>
+            <input type="text" formControlName="image" id="image" placeholder="Enter image URL"class="w-full p-2 border rounded">
+          </div>                                     
           <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Create Account</button>
           <p class="text-center">Already have an account? <a (click)="toggleForm()" class="text-blue-500 cursor-pointer">Login</a></p>
         </form>

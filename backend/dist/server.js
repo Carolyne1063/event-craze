@@ -17,7 +17,8 @@ const paymentRoutes_1 = __importDefault(require("./src/routes/paymentRoutes"));
 dotenv_1.default.config();
 const prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
-app.use(express_1.default.json());
+app.use(express_1.default.json({ limit: '50mb' }));
+app.use(express_1.default.urlencoded({ extended: true, limit: '50mb' }));
 const cors = require('cors');
 app.use(cors());
 // Mount your routes
