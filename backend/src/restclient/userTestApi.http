@@ -1,41 +1,42 @@
 ### Register a new user
-POST http://localhost:3000/api/users/register
+POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "firstName": "Joe",
-  "lastName": "Okollah",
+  "firstName": "Admin",
+  "lastName": "Carol",
   "phoneNo": "0799966816",
-  "email": "sejohllah@gmail.com",
+  "email": "admin@example.com",
   "password": "password12345",
-  "image": "https://i.pinimg.com/474x/ae/5d/ab/ae5dab044f196d0ac30ea7c152bd6249.jpg"
+  "image": "https://i.pinimg.com/474x/ae/5d/ab/ae5dab044f196d0ac30ea7c152bd6249.jpg",
+  "role": "ADMIN"
 }
 
 ### Login user
-POST http://localhost:3000/api/users/login
+POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "carolmartoz2863@gmail.com",
-  "password": "password12345"
+  "email": "admin@example.com",
+  "password": "adminpassword"
 }
 
 ### Get user by ID 
-GET http://localhost:3000/api/users/5c2f0ffb-59fb-4bec-a0d3-f1d7c6356057
+GET http://localhost:3000/api/auth/5c2f0ffb-59fb-4bec-a0d3-f1d7c6356057
 
 ### Get all users
-GET http://localhost:3000/api/users
+GET http://localhost:3000/api/auth
 
 ###Update user
-PUT http://localhost:3000/api/users/eb424526-ef99-47a0-afff-798b08e74207
+PUT http://localhost:3000/api/auth/03de29b4-f43a-47ce-b859-0fa337c37cee
 Content-Type: application/json
 
 {
-  "firstName": "Joe",
-  "lastName": "Okollah",
-  "phoneNo": "799966816",
-  "email": "sejohllah@gmail.com",
-  "password": "NewSecurePassword"
+  "firstName": "Admin",
+  "lastName": "Carol",
+  "phoneNo": "799966896",
+  "email": "admin@example.com",
+  "password": "adminpassword"
 }
 
 ###Delete user

@@ -18,8 +18,10 @@ dotenv_1.default.config();
 const prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+const cors = require('cors');
+app.use(cors());
 // Mount your routes
-app.use('/api/users', userRoutes_1.default);
+app.use('/api/auth', userRoutes_1.default);
 app.use('/api/events', eventRoutes_1.default);
 app.use('/api/bookings', bookingRoutes_1.default);
 app.use('/api/tickets', ticketRoutes_1.default);

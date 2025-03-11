@@ -1,12 +1,46 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
+  private apiUrl = 'http://localhost:3000/api/auth'; // Update with your backend URL
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  register(userData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, userData);
+  }
+
+  login(credentials: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: any) => {
+        localStorage.setItem('userToken', response.token);
+        localStorage.setItem('userId', response.userId);
+        localStorage.setItem('userRole', response.role); // Store role
+      })
+    );
+  }
+  
+  getUserRole(): string | null {
+    return localStorage.getItem('userRole');
+  }  
+
+  logout(): void {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userId');
+    this.router.navigate(['/login']);
+  }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('userToken');  // Change this based on your auth logic
+    return !!localStorage.getItem('userToken');
+  }
+
+  getUserId(): string | null {
+    return localStorage.getItem('userId');
   }
 }

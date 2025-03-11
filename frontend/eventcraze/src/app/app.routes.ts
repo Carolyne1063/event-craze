@@ -17,7 +17,7 @@ export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginRegisterComponent },
 
-    { path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard], 
+    { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard], 
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'events', component: EventsComponent },
@@ -28,7 +28,7 @@ export const routes: Routes = [
         ]
     },
 
-    { path: 'user', component: UserDashboardComponent, canActivate: [AuthGuard], 
+    { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard], 
         children: [
             { path: 'events', component: UserEventsComponent },
             { path: 'bookings', component: MyBookingsComponent },
@@ -37,5 +37,5 @@ export const routes: Routes = [
         ] 
     },
 
-    { path: '**', redirectTo: 'home' }
+    { path: '**', redirectTo: 'home', pathMatch: 'full'}
 ];

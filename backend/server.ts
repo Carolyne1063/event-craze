@@ -14,9 +14,11 @@ dotenv.config();
 const prisma = new PrismaClient();
 const app = express();
 app.use(express.json());
+const cors = require('cors');
+app.use(cors());
 
 // Mount your routes
-app.use('/api/users', userRoutes);
+app.use('/api/auth', userRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/tickets', ticketRoutes);

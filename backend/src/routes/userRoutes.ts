@@ -9,7 +9,9 @@ const userController = new UserController();
 router.post('/register', asyncHandler((req, res) => userController.register(req, res)));
 
 // Login User
-router.post('/login', asyncHandler((req, res) => userController.login(req, res)));
+router.post('/login', asyncHandler(async (req, res) => {
+  await userController.login(req, res);
+}));
 
 // Get user by ID
 // Get user by ID

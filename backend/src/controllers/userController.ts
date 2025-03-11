@@ -1,6 +1,10 @@
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { UserService } from '../services/userService';
 
+const prisma = new PrismaClient();
 const userService = new UserService();
 
 export class UserController {
@@ -20,13 +24,34 @@ export class UserController {
   async login(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
-      const result = await userService.loginUser(email, password);
-      res.status(200).json(result);
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-      res.status(401).json({ error: errorMessage });
+      
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+      }
+  
+      const user = await prisma.user.findUnique({ where: { email } });
+  
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      // Generate JWT Token
+      const token = jwt.sign(
+        { userId: user.id, role: user.role },
+        process.env.JWT_SECRET as string,
+        { expiresIn: '1d' }
+      );
+  
+      res.status(200).json({ token, userId: user.id, role: user.role }); // Send the response properly
+    } catch (error) {
+      res.status(500).json({ message: 'An unexpected error occurred', error: error instanceof Error ? error.message : error });
     }
-  }
+  }   
 
   // Get user by ID
   async getUser(req: Request, res: Response) {
