@@ -22,7 +22,7 @@ Content-Type: application/json
 }
 
 ### Get user by ID 
-GET http://localhost:3000/api/auth/eb424526-ef99-47a0-afff-798b08e74207
+GET http://localhost:3000/api/auth/5ccfa163-add3-4315-b041-76facda18fd1
 
 ### Get all users
 GET http://localhost:3000/api/auth
@@ -40,5 +40,5 @@ Content-Type: application/json
 }
 
 ###Delete user
-DELETE http://localhost:3000/api/auth/d11eff76-891f-4d82-8370-d1c6324c7fd1
+DELETE http://localhost:3000/api/auth/95bfe3e9-4c52-4b9f-9cd7-40f54c298f77
 

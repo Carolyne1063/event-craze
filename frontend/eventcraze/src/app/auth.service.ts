@@ -28,9 +28,13 @@ export class AuthService {
   }
   
   getUsername(): string | null {
-    return localStorage.getItem('username');
+    return localStorage.getItem('firstName');
   }  
   
+  // getUser(userId: string): Observable<any> {
+  //   return this.http.get<any>(`${this.baseUrl}/${userId}`);
+  // }
+
   getUserRole(): string | null {
     return localStorage.getItem('userRole');
   }  

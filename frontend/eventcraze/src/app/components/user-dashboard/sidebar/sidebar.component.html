@@ -1,45 +1,42 @@
 <aside class="h-screen bg-blue-900 text-white p-5 w-64 transition-all duration-300 fixed left-0 top-0 flex flex-col space-y-4" [ngClass]="{'w-16 p-2': isCollapsed}" id="sidebar">
-    <!-- Profile Section -->
-    <div class="flex items-center space-x-3 mb-6">
-      <div class="w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center">
-        <i class="fas fa-user text-white text-xl"></i> <!-- Placeholder for profile picture -->
-      </div>
-      <div *ngIf="!isCollapsed">
-        <span class="text-white font-semibold">User Name</span> <!-- Placeholder for name -->
-        <p class="text-gray-300 text-sm">User</p> <!-- Placeholder for role -->
-      </div>
+  <!-- Profile Section -->
+  <div class="flex items-center space-x-3 mb-6">
+    <img [src]="profileImage" alt="Profile" class="w-12 h-12 rounded-full object-cover" /> <!-- Profile Picture -->
+    <div *ngIf="!isCollapsed">
+      <span class="text-white font-semibold">{{ userName }}</span> <!-- User Name -->
+      <p class="text-gray-300 text-sm">{{ userRole }}</p> <!-- User Role -->
     </div>
-  
-    <!-- Navigation menu -->
-    <nav class="flex-grow">
-      <ul class="space-y-4">
-        <li>
-          <a routerLink="events" routerLinkActive="bg-blue-700" class="flex items-center space-x-4 p-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition-all">
-            <i class="fas fa-calendar-alt"></i>
-            <span class="flex-1" *ngIf="!isCollapsed">Events</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="bookings" routerLinkActive="bg-blue-700" class="flex items-center space-x-4 p-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition-all">
-            <i class="fas fa-ticket-alt"></i>
-            <span class="flex-1" *ngIf="!isCollapsed">My Bookings</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="settings" routerLinkActive="bg-blue-700" class="flex items-center space-x-4 p-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition-all">
-            <i class="fas fa-cogs"></i>
-            <span class="flex-1" *ngIf="!isCollapsed">Settings</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  
-    <!-- Logout Section -->
-    <div class="mt-6 pt-6 border-t border-gray-600">
-      <a routerLink="/home" class="flex items-center space-x-4 p-3 rounded-lg bg-blue-800 hover:bg-blue-700 transition-all">
-        <i class="fas fa-sign-out-alt"></i>
-        <span class="flex-1" *ngIf="!isCollapsed">Logout</span>
-      </a>
-    </div>
-  </aside>
-  
+  </div>
+
+  <!-- Navigation menu -->
+  <nav class="flex-grow">
+    <ul class="space-y-4">
+      <li>
+        <a routerLink="events" routerLinkActive="bg-blue-700" class="flex items-center space-x-4 p-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition-all">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="flex-1" *ngIf="!isCollapsed">Events</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="bookings" routerLinkActive="bg-blue-700" class="flex items-center space-x-4 p-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition-all">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="flex-1" *ngIf="!isCollapsed">My Bookings</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="settings" routerLinkActive="bg-blue-700" class="flex items-center space-x-4 p-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition-all">
+          <i class="fas fa-cogs"></i>
+          <span class="flex-1" *ngIf="!isCollapsed">Settings</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Logout Section -->
+  <div class="mt-6 pt-6 border-t border-gray-600">
+    <a routerLink="/home" class="flex items-center space-x-4 p-3 rounded-lg bg-blue-800 hover:bg-blue-700 transition-all">
+      <i class="fas fa-sign-out-alt"></i>
+      <span class="flex-1" *ngIf="!isCollapsed">Logout</span>
+    </a>
+  </div>
+</aside>

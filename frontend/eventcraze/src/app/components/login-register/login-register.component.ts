@@ -22,7 +22,7 @@ export class LoginRegisterComponent {
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
-      phoneNo: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
+      phoneNo: ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       image: [''] // Added image field
@@ -36,6 +36,11 @@ export class LoginRegisterComponent {
 
   register() {
     const user = this.registerForm.value;
+
+     // Remove leading '0' before sending to the backend
+  if (user.phoneNo.startsWith('0')) {
+    user.phoneNo = user.phoneNo.slice(1); // Remove the first character
+  }
 
     this.authService.register(user).subscribe({
       next: () => {
