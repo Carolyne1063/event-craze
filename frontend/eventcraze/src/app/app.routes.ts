@@ -12,11 +12,12 @@ import { MyBookingsComponent } from './components/user-dashboard/my-bookings/my-
 import { UserSettingsComponent } from './components/user-dashboard/user-settings/user-settings.component';
 import { UserEventsComponent } from './components/user-dashboard/user-events/user-events.component';
 import { AuthGuard } from './auth.guard';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginRegisterComponent },
-
+    { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard], 
         children: [
             { path: 'dashboard', component: DashboardComponent },

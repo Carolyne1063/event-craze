@@ -14,6 +14,7 @@ const notificationRoutes_1 = __importDefault(require("./src/routes/notificationR
 const paymentService_1 = __importDefault(require("./src/services/paymentService"));
 const client_1 = require("@prisma/client");
 const paymentRoutes_1 = __importDefault(require("./src/routes/paymentRoutes"));
+const forgotPasswordRoutes_1 = __importDefault(require("./src/routes/forgotPasswordRoutes"));
 dotenv_1.default.config();
 const prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
@@ -29,6 +30,7 @@ app.use('/api/tickets', ticketRoutes_1.default);
 app.use('/api/reviews', reviewRoutes_1.default);
 app.use("/api/payments", paymentRoutes_1.default);
 app.use("/api/notifications", notificationRoutes_1.default);
+app.use('/api/auth', forgotPasswordRoutes_1.default); // This must match the frontend URL
 // Test endpoint for MPESA STK Push
 app.post('/stk', async (req, res, next) => {
     const { phone, amount } = req.body;

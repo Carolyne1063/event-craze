@@ -57,6 +57,9 @@
         <div *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid" class="text-red-500 text-sm">Password is required.</div>
 
         <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Login</button>
+        <p>
+          <a routerLink="/forgot-password">Forgot Password?</a>
+        </p>        
         <p class="text-center">New here? <a (click)="toggleForm()" class="text-blue-500 cursor-pointer">Register</a></p>
       </form>
     </div>

@@ -9,6 +9,7 @@ import notificationRoutes from './src/routes/notificationRoutes';
 import PaymentService from './src/services/paymentService';
 import { PrismaClient, Prisma } from '@prisma/client';
 import paymentRoutes from './src/routes/paymentRoutes';
+import forgotPasswordRoutes from './src/routes/forgotPasswordRoutes';
 dotenv.config();
 
 const prisma = new PrismaClient();
@@ -27,6 +28,7 @@ app.use('/api/tickets', ticketRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use('/api/auth', forgotPasswordRoutes); // This must match the frontend URL
 
 
 

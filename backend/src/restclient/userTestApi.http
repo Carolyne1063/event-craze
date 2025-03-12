@@ -17,8 +17,8 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin@example.com",
-  "password": "adminpassword"
+  "email": "carolmartoz1063@gmail.com",
+  "password": "newSecurePassword"
 }
 
 ### Get user by ID 
@@ -41,4 +41,33 @@ Content-Type: application/json
 
 ###Delete user
 DELETE http://localhost:3000/api/auth/95bfe3e9-4c52-4b9f-9cd7-40f54c298f77
+
+### Forgot Password API Test
+POST http://localhost:3000/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "carolmartoz1063@gmail.com"
+}
+
+### Verify OTP
+POST http://localhost:3000/api/auth/verify-otp
+Content-Type: application/json
+
+{
+    "email": "carolmartoz1063@gmail.com",
+    "otp": "820769"  
+}
+
+### Reset Password
+POST http://localhost:3000/api/auth/reset-password
+Content-Type: application/json
+
+{
+    "email": "carolmartoz1063@gmail.com",
+    "newPassword": "newSecurePassword"
+}
+
+
+
 
