@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 
 @Component({
@@ -11,5 +11,14 @@ import { RouterModule } from '@angular/router';
   styleUrl: './user-dashboard.component.css'
 })
 export class UserDashboardComponent {
-  
+  userId: string | null = '';
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.userId = params.get('userId'); // Get userId from URL
+      console.log('User Dashboard for:', this.userId); // Debugging
+    });
+  }
 }

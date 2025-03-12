@@ -60,14 +60,15 @@ export class LoginRegisterComponent {
         next: () => {
           this.successMessage = 'Login Successful!';
           this.errorMessage = ''; // Clear errors
-
+  
           setTimeout(() => {
             this.successMessage = ''; // Hide message before redirect
             const role = this.authService.getUserRole();
+            const userId = this.authService.getUserId(); // Fix: Fetch userId correctly  
             if (role === 'ADMIN') {
               this.router.navigate(['/admin-dashboard']);
             } else {
-              this.router.navigate(['/user-dashboard']);
+              this.router.navigate([`/user-dashboard/${userId}`]); // Redirect to user-specific dashboard
             }
           }, 2000); // Delay redirection
         },
@@ -77,7 +78,7 @@ export class LoginRegisterComponent {
         }
       });
     }
-  }   
+  } 
 
   toggleForm(): void {
     this.isLoginActive = !this.isLoginActive;

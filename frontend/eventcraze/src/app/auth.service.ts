@@ -22,9 +22,14 @@ export class AuthService {
         localStorage.setItem('userToken', response.token);
         localStorage.setItem('userId', response.userId);
         localStorage.setItem('userRole', response.role); // Store role
+        localStorage.setItem('username', response.firstName); // Store username (for redirection)
       })
     );
   }
+  
+  getUsername(): string | null {
+    return localStorage.getItem('username');
+  }  
   
   getUserRole(): string | null {
     return localStorage.getItem('userRole');

@@ -28,14 +28,14 @@ export const routes: Routes = [
         ]
     },
 
-    { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard], 
+    { path: 'user-dashboard/:userId', component: UserDashboardComponent, canActivate: [AuthGuard], 
         children: [
-            { path: 'events', component: UserEventsComponent },
-            { path: 'bookings', component: MyBookingsComponent },
-            { path: 'settings', component: UserSettingsComponent },
-            { path: '', redirectTo: 'events', pathMatch: 'full' } 
+          { path: 'events', component: UserEventsComponent },
+          { path: 'bookings', component: MyBookingsComponent },
+          { path: 'settings', component: UserSettingsComponent },
+          { path: '', redirectTo: 'events', pathMatch: 'full' } 
         ] 
-    },
+      },      
 
     { path: '**', redirectTo: 'home', pathMatch: 'full'}
 ];
