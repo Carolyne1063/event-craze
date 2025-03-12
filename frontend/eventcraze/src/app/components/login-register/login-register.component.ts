@@ -35,44 +35,49 @@ export class LoginRegisterComponent {
   }
 
   register() {
-    const user = {
-      firstName: this.registerForm.value.firstName,
-      lastName: this.registerForm.value.lastName,
-      email: this.registerForm.value.email,
-      password: this.registerForm.value.password,
-      phoneNo: this.registerForm.value.phoneNo,
-      image: this.registerForm.value.image
-    };
-  
+    const user = this.registerForm.value;
+
     this.authService.register(user).subscribe({
-      next: (response) => {
-        console.log('User registered successfully', response);
+      next: () => {
+        this.successMessage = 'Registration Successful!';
+        this.errorMessage = ''; // Clear errors
+        this.registerForm.reset(); // Reset form
+        setTimeout(() => {
+          this.successMessage = ''; // Hide message
+          this.isLoginActive = true; // Switch to login form
+        }, 2000);
       },
       error: (error) => {
-        console.error('Registration error', error);
+        this.errorMessage = error.error.message || 'Registration failed!';
+        this.successMessage = ''; // Clear success message
       }
     });
   }
-   
 
-  login(): void {
+  login() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => {
-          alert('Login Successful!');
-          const role = this.authService.getUserRole();
-          if (role === 'ADMIN') {
-            this.router.navigate(['/admin-dashboard']);
-          } else {
-            this.router.navigate(['/user-dashboard']);
-          }
+          this.successMessage = 'Login Successful!';
+          this.errorMessage = ''; // Clear errors
+
+          setTimeout(() => {
+            this.successMessage = ''; // Hide message before redirect
+            const role = this.authService.getUserRole();
+            if (role === 'ADMIN') {
+              this.router.navigate(['/admin-dashboard']);
+            } else {
+              this.router.navigate(['/user-dashboard']);
+            }
+          }, 2000); // Delay redirection
         },
         error: (err) => {
           this.errorMessage = err.error.message || 'Invalid email or password!';
+          this.successMessage = ''; // Clear success message
         }
       });
     }
-  }  
+  }   
 
   toggleForm(): void {
     this.isLoginActive = !this.isLoginActive;
