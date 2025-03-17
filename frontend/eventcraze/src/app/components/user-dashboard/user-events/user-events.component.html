@@ -29,6 +29,30 @@
         </div>
     </div>
 
+   <!-- Success Modal -->
+<div *ngIf="successMessage" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+      <h2 class="text-green-600 text-lg font-bold">Success!</h2>
+      <p class="text-gray-700">{{ successMessage }}</p>
+      <button (click)="closeMessage()" 
+              class="mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md">
+        OK
+      </button>
+    </div>
+  </div>
+  
+  <!-- Error Modal -->
+  <div *ngIf="errorMessage" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+      <h2 class="text-red-600 text-lg font-bold">Error!</h2>
+      <p class="text-gray-700">{{ errorMessage }}</p>
+      <button (click)="closeMessage()" 
+              class="mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md">
+        OK
+      </button>
+    </div>
+  </div>
+
     <!-- Booking Modal -->
     <div *ngIf="selectedEvent"  class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-auto">
         <div class="bg-blue-200 p-8 rounded-lg shadow-lg max-w-xl w-full max-h-screen overflow-auto overflow-x-hidden">

@@ -28,8 +28,13 @@ export class UserEventsComponent implements OnInit {
   selectedEvent: Event | null = null;
   selectedTicketType: string = '';
   selectedQuantity: number = 1;
+  successMessage: string = '';  // ✅ Success message
+  errorMessage: string = '';    // ✅ Error message
 
-  constructor(private eventService: EventService, private bookingService: BookingService,   private authService: AuthService // Inject AuthService here
+  constructor(
+    private eventService: EventService, 
+    private bookingService: BookingService, 
+    private authService: AuthService 
   ) {}
 
   ngOnInit() {
@@ -51,36 +56,42 @@ export class UserEventsComponent implements OnInit {
     this.selectedEvent = event;
     this.selectedTicketType = event.tickets.length > 0 ? event.tickets[0].type : '';
     this.selectedQuantity = 1;
+    this.successMessage = ''; // Reset messages
+    this.errorMessage = '';
   }
 
   bookTicket() {
     if (!this.selectedEvent || !this.selectedTicketType || this.selectedQuantity < 1) {
-      alert('Please select a ticket type and quantity.');
+      this.errorMessage = 'Please select a ticket type and quantity.';
       return;
     }
-  
-    const userId = this.authService.getUserId(); // Retrieve user ID from AuthService
+
+    const userId = this.authService.getUserId();
     if (!userId) {
-      alert('User not logged in. Please log in to book tickets.');
+      this.errorMessage = 'User not logged in. Please log in to book tickets.';
       return;
     }
-  
+
     const eventId = this.selectedEvent.id;
     const ticketType = this.selectedTicketType;
-    const quantity = this.selectedQuantity; // Ensure it's a number
-  
+    const quantity = this.selectedQuantity;
+
     this.bookingService.createBooking(userId, eventId, ticketType, quantity).subscribe({
-      next: (response) => {
-        alert(`Successfully booked ${this.selectedQuantity} ticket(s) for ${this.selectedEvent?.eventName}!`);
+      next: () => {
+        this.successMessage = `Successfully booked ${this.selectedQuantity} ticket(s) for ${this.selectedEvent?.eventName}!`;
         this.cancelBooking();
       },
-      error: (error) => {
-        console.error('Error booking event:', error);
-        alert('Failed to book ticket. Please try again.');
+      error: () => {
+        this.errorMessage = 'Failed to book ticket. Please try again.';
       }
     });
   }
-  
+
+  closeMessage() {
+    this.successMessage = '';
+    this.errorMessage = '';
+  }
+
   cancelBooking() {
     this.selectedEvent = null;
   }
