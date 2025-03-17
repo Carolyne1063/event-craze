@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../auth.service';
+import { BookingService } from '../../../services/bookingService';
+import { EventService } from '../../../services/eventService';
 
 @Component({
   selector: 'app-my-bookings',
@@ -10,109 +13,136 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './my-bookings.component.css'
 })
 export class MyBookingsComponent {
-  bookings = [
-    {
-      id: 1,
-      eventName: 'Jazz Night Live',
-      date: 'March 15, 2025',
-      location: 'New York City',
-      category: 'Music',
-      ticketType: 'VIP',
-      price: 120,
-      quantity: 2,
-      status: 'Confirmed',
-      image: 'https://i.pinimg.com/474x/23/8c/41/238c4195126175e33e5dc641df6d5c74.jpg'
-    },
-    {
-      id: 2,
-      eventName: 'Tech Expo 2025',
-      date: 'April 5, 2025',
-      location: 'San Francisco',
-      category: 'Technology',
-      ticketType: 'General',
-      price: 50,
-      quantity: 1,
-      status: 'Pending',
-      image: 'assets/roboticsevent.jpeg'
-    },
-    {
-      id: 3,
-      eventName: 'Coffee Tasting Tour',
-      date: 'May 20, 2025',
-      location: 'Seattle',
-      category: 'Food & Drinks',
-      ticketType: 'Standard',
-      price: 30,
-      quantity: 3,
-      status: 'Cancelled',
-      image: 'https://i.pinimg.com/474x/5c/fd/93/5cfd93bf09153e97707fff073ccd309c.jpg'
-    }
-  ];
-
+  bookings: any[] = []; // Array to store user bookings
   selectedBooking: any = null;
-  cancelBookingId: number | null = null;
+  cancelBookingId: string | null = null; 
   showUpdateForm = false;
-  showRefundMessage = false; // ✅ Added this
-
-
-  // ✅ Define available ticket types here
-  ticketTypes = ['VIP', 'General', 'Standard', 'Premium'];
+  showRefundMessage = false;
   showCancelConfirmation!: boolean;
+  userId: string = ''; // Store logged-in user ID
+  showSuccessMessage = false;
+  showErrorMessage = false;
+  ticketTypes: string[] = []; // Dynamically populated ticket types
 
+  constructor(private bookingService: BookingService, private authService: AuthService, private eventService: EventService) {}
+
+  ngOnInit() {
+    this.userId = this.authService.getUserId() ?? ''; // Prevent null values
+    console.log('User ID:', this.userId); // Debugging
+    if (!this.userId) {
+      console.error('User ID is missing. Redirecting to login...');
+      return;
+    }
+    this.fetchBookings();
+  }
+
+  fetchBookings() {
+    this.bookingService.getUserBookings(this.userId).subscribe(
+      (data: any[]) => {
+        console.log('Fetched Bookings:', data); // Debugging
+        this.bookings = data.map(booking => ({ 
+          ...booking, 
+          eventName: '',  
+          image: '',
+          date: '',
+          time: '',
+          ticketType: booking.ticketType,
+          quantity: booking.quantity,
+          price: 0 // Default price, will be updated later
+        }));
+  
+        this.bookings.forEach(booking => {
+          console.log('Fetching event details for eventId:', booking.eventId); // Debugging
+          this.eventService.getEventById(booking.eventId).subscribe(
+            (eventData) => {
+              console.log('Event Data:', eventData); // Debugging
+              booking.eventName = eventData.eventName;    
+              booking.image = eventData.image;      
+              booking.date = eventData.date;        
+              booking.time = eventData.time;        
+  
+              // Populate available ticket types dynamically
+              this.ticketTypes = eventData.tickets.map((ticket: any) => ticket.type);
+  
+              // 🔍 Find the price for the correct ticket type from event details
+              const ticketDetails = eventData.tickets.find((ticket: any) => ticket.type === booking.ticketType);
+              if (ticketDetails) {
+                booking.price = ticketDetails.price; // Set correct price
+              }
+            },
+            (error) => {
+              console.error(`Error fetching event details for event ID ${booking.eventId}:`, error);
+            }
+          );
+        });
+      },
+      (error: any) => {
+        console.error('Error fetching bookings:', error);
+      }
+    );
+  }
+  
   openUpdateForm(booking: any) {
-    this.selectedBooking = { 
-      id: booking.id, 
-      ticketType: booking.ticketType, 
-      quantity: booking.quantity 
-    };
-    this.showUpdateForm = true; 
+    this.selectedBooking = { ...booking };
+    this.showUpdateForm = true;
   }
 
   updateBooking() {
-    this.bookings = this.bookings.map(booking => 
-      booking.id === this.selectedBooking.id 
-        ? { ...booking, ticketType: this.selectedBooking.ticketType, quantity: this.selectedBooking.quantity } 
-        : booking
-    );
-    this.showUpdateForm = false;
-  }
+    if (!this.selectedBooking || !this.selectedBooking.id) {
+      console.error('No booking selected for update.');
+      return;
+    }
   
+    console.log('Updating booking with ID:', this.selectedBooking.id);
+    
+    this.bookingService.updateBooking(this.selectedBooking.id, this.selectedBooking.quantity, this.selectedBooking.ticketType).subscribe(
+      () => {
+        this.fetchBookings(); // Refresh the list after update
+        this.showUpdateForm = false;
+        this.showSuccessMessage = true;
+        setTimeout(() => this.showSuccessMessage = false, 3000);
+      },
+      (error) => {
+        console.error('Error updating booking:', error);
+        this.showErrorMessage = true;
+        setTimeout(() => this.showErrorMessage = false, 3000);
+      }
+    );
+  }  
 
   cancelUpdate() {
-    this.showUpdateForm = false; // Hide the update form
-    this.selectedBooking = null; // Reset selected booking
-}
+    this.showUpdateForm = false;
+    this.selectedBooking = null;
+  }
 
-
-  // Open Cancel Form
-  openCancelForm(id: number) {
+  openCancelForm(id: string) { // Keep id as string
     this.cancelBookingId = id;
     this.showCancelConfirmation = true;
   }
 
-  // Confirm Cancel Booking
   confirmCancelBooking() {
-    if (this.cancelBookingId === null) return;
-    this.bookings = this.bookings.map(b =>
-      b.id === this.cancelBookingId ? { ...b, status: 'Cancelled' } : b
+    if (!this.cancelBookingId) return;
+
+    this.bookingService.cancelBooking(this.cancelBookingId).subscribe( // No need to convert now
+      () => {
+        this.fetchBookings();
+        this.cancelBookingId = null;
+        this.showCancelConfirmation = false;
+        this.showRefundMessage = true;
+        setTimeout(() => this.showRefundMessage = false, 3000);
+      },
+      (error) => {
+        console.error('Error cancelling booking:', error);
+      }
     );
-    this.cancelBookingId = null;
-    this.showCancelConfirmation = false;
-    this.showRefundMessage = true; // ✅ Show refund message after cancellation
   }
 
-  // Cancel the Cancel Form
   cancelCancelBooking() {
     this.cancelBookingId = null;
     this.showCancelConfirmation = false;
   }
 
   closeRefundMessage() {
-    this.showRefundMessage = false; // ✅ Added this method to close refund popup
-  }
-
-  // Navigate to Events
-  navigateToEvents() {
-    console.log('Redirecting to events...');
+    this.showRefundMessage = false;
   }
 }

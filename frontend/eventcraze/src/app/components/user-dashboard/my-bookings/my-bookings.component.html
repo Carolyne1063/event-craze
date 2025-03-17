@@ -1,6 +1,16 @@
 <div class="container mx-auto px-6 py-10">
     <h2 class="text-3xl font-bold text-blue-700 mb-6">My Bookings</h2>
 
+     <!-- Success Message for Booking Update -->
+<div *ngIf="showSuccessMessage" class="bg-green-500 text-white p-3 rounded-lg text-center mb-4">
+    ✅ Booking updated successfully!
+  </div>
+  
+  <!-- Error Message for Booking Update -->
+  <div *ngIf="showErrorMessage" class="bg-red-500 text-white p-3 rounded-lg text-center mb-4">
+    ❌ Error updating booking. Please try again.
+  </div>
+  
     <div *ngIf="bookings.length > 0; else noBookings" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div *ngFor="let booking of bookings" class="bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-5 flex flex-col transition duration-300 hover:scale-105">
             
@@ -8,12 +18,12 @@
                 <img [src]="booking.image" alt="Event Image" class="w-16 h-16 object-cover rounded-lg shadow">
                 <div>
                     <h3 class="text-lg font-bold text-gray-800">{{ booking.eventName }}</h3>
-                    <p class="text-sm text-gray-600">{{ booking.date }} | {{ booking.location }}</p>
+                    <p class="text-sm text-gray-600">{{ booking.date }} | {{ booking.time }}</p>
+                    <p class="text-sm text-gray-600">{{ booking.location }}</p>
                 </div>
             </div>
             
             <div class="mt-4 text-sm text-gray-500">
-                <p><span class="font-semibold">Category:</span> {{ booking.category }}</p>
                 <p><span class="font-semibold">Ticket:</span> {{ booking.ticketType }} - <span class="font-bold">${{ booking.price }}</span></p>
                 <p><span class="font-semibold">Quantity:</span> {{ booking.quantity }}</p>
             </div>
@@ -42,8 +52,8 @@
         </div>
     </div>
 
-    <!-- Update Booking Modal -->
-    <div *ngIf="showUpdateForm" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+     <!-- Update Booking Modal -->
+     <div *ngIf="showUpdateForm" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
             <h3 class="text-xl font-semibold mb-4">Update Booking</h3>
 
@@ -86,8 +96,8 @@
             <button (click)="closeRefundMessage()" class="bg-blue-500 text-white px-4 py-2 rounded-lg">OK</button>
         </div>
     </div>
-
-    <!-- No Bookings Message -->
+  
+  
     <ng-template #noBookings>
         <div class="text-center py-10">
             <p class="text-gray-500 text-lg">You have no bookings yet. Explore events and book your spot!</p>

@@ -15,7 +15,7 @@ export class BookingService {
   }
 
   getUserBookings(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${userId}`);
+    return this.http.get(`${this.apiUrl}/${userId}`);
   }
 
   getBookingById(bookingId: string): Observable<any> {
@@ -23,7 +23,7 @@ export class BookingService {
   }
 
   cancelBooking(bookingId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/cancel/${bookingId}`);
+    return this.http.delete(`${this.apiUrl}/${bookingId}`);
   }
 
   updateBooking(bookingId: string, newQuantity: number, newTicketType?: string): Observable<any> {
