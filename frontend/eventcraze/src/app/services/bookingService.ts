@@ -15,7 +15,7 @@ export class BookingService {
   }
 
   getUserBookings(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${userId}`);
+    return this.http.get(`${this.apiUrl}/user/${userId}`);
   }
 
   getBookingById(bookingId: string): Observable<any> {
@@ -28,5 +28,10 @@ export class BookingService {
 
   updateBooking(bookingId: string, newQuantity: number, newTicketType?: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/update/${bookingId}`, { newQuantity, newTicketType });
+  }
+
+  // ✅ New method: Get bookings by event ID
+  getBookingsByEvent(eventId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/event/${eventId}`);
   }
 }

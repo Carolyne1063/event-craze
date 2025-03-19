@@ -6,10 +6,9 @@
     <!-- Event List -->
     <ul class="space-y-2 overflow-y-auto max-h-[80vh]">
       <li *ngFor="let event of eventsList" (click)="selectEvent(event)"
-        [class.bg-blue-300]="selectedEvent.id === event.id"
+        [class.bg-blue-300]="selectedEvent?.id === event.id"
         class="p-3 cursor-pointer hover:bg-blue-200 rounded-lg transition-all duration-300 shadow-md flex flex-col">
-
-        <span class="font-semibold text-blue-900 text-lg">{{ event.name }}</span>
+        <span class="font-semibold text-blue-900 text-lg">{{ event.eventName }}</span>
         <span class="text-sm text-gray-700">{{ event.date | date:'shortDate' }}</span>
         <span class="text-sm text-gray-700">{{ event.location }}</span>
       </li>
@@ -22,29 +21,29 @@
 
       <!-- Event Header Section -->
       <div class="mb-3">
-        <h2 class="text-xl font-bold text-blue-900">{{ selectedEvent.name || 'Select an Event' }}</h2>
+        <h2 class="text-xl font-bold text-blue-900">{{ selectedEvent?.eventName || 'Select an Event' }}</h2>
 
         <div class="flex space-x-4 mt-2">
           <!-- Event Image -->
-          <img [src]="selectedEvent.imageUrl || 'https://via.placeholder.com/150'"
+          <img [src]="selectedEvent?.image || 'https://via.placeholder.com/150'"
             class="w-32 h-32 rounded-lg border-2 border-blue-500 shadow-md" alt="Event Image">
 
           <!-- Event Details -->
           <div>
-            <p class="text-sm text-gray-700"><strong>Date:</strong> {{ selectedEvent.date | date:'fullDate' }}</p>
-            <p class="text-sm text-gray-700"><strong>Time:</strong> {{ selectedEvent.time }}</p>
-            <p class="text-sm text-gray-700"><strong>Location:</strong> {{ selectedEvent.location }}</p>
+            <p class="text-sm text-gray-700"><strong>Date:</strong> {{ selectedEvent?.date | date:'fullDate' }}</p>
+            <p class="text-sm text-gray-700"><strong>Time:</strong> {{ selectedEvent?.time }}</p>
+            <p class="text-sm text-gray-700"><strong>Location:</strong> {{ selectedEvent?.location }}</p>
 
             <!-- Remaining Tickets -->
             <h3 class="text-md font-semibold text-blue-700 mt-2">Tickets Left:</h3>
             <ul class="text-sm text-gray-600">
               <li *ngFor="let ticket of selectedEvent?.tickets">
-                {{ ticket.type }}: <strong>{{ ticket.remaining }}</strong> remaining
+                {{ ticket.type }}: <strong>{{ ticket.quantity }}</strong> remaining
               </li>
-            </ul>
+            </ul>            
 
             <!-- Total Revenue -->
-            <p class="text-md font-semibold text-blue-800 mt-2">💰 Total Revenue: ${{ selectedEvent.revenue | number }}
+            <p class="text-md font-semibold text-blue-800 mt-2">💰 Total Revenue: ${{ selectedEvent?.revenue | number }}
             </p>
           </div>
         </div>
@@ -52,29 +51,37 @@
 
       <!-- Bookings List -->
       <h3 class="text-lg font-bold text-blue-700 border-b pb-2 mb-3">Attendees</h3>
-      <ul class="space-y-2 overflow-y-auto max-h-[50vh]">
+      <ul *ngIf="selectedEvent?.bookings?.length > 0; else noAttendees"
+        class="space-y-2 overflow-y-auto max-h-[50vh]">
         <li *ngFor="let booking of selectedEvent?.bookings"
           [ngClass]="{'bg-red-200 border-red-500': booking.canceled, 'bg-blue-50 border-blue-200': !booking.canceled}"
           class="p-3 rounded-lg shadow-sm border flex items-center">
 
-          <img [src]="booking.imageUrl || 'https://via.placeholder.com/50'"
+          <img [src]="booking?.user?.image || 'https://via.placeholder.com/50'"
             class="w-12 h-12 rounded-full border-2 shadow-sm mr-3"
             [ngClass]="{'border-red-500': booking.canceled, 'border-blue-500': !booking.canceled}" alt="User Profile">
 
           <div>
             <span class="font-semibold"
               [ngClass]="{'text-red-900': booking.canceled, 'text-blue-900': !booking.canceled}">
-              {{ booking.name }}
+              {{ booking?.user?.firstName }} {{ booking?.user?.lastName }}
             </span>
-            <p class="text-sm" [ngClass]="{'text-red-700': booking.canceled, 'text-gray-600': !booking.canceled}">{{
-              booking.email }}</p>
-            <p class="text-sm" [ngClass]="{'text-red-700': booking.canceled, 'text-gray-600': !booking.canceled}">{{
-              booking.phone }}</p>
+            <p class="text-sm" [ngClass]="{'text-red-700': booking.canceled, 'text-gray-600': !booking.canceled}">
+              {{ booking?.user?.email }}
+            </p>
+            <p class="text-sm" [ngClass]="{'text-red-700': booking.canceled, 'text-gray-600': !booking.canceled}">
+              📞 {{ booking?.user?.phoneNo }}
+            </p>
 
-            <span *ngIf="booking.canceled" class="text-sm font-semibold text-red-900">❌ Canceled</span>
+            <span *ngIf="booking?.canceled" class="text-sm font-semibold text-red-900">❌ Canceled</span>
           </div>
         </li>
       </ul>
+
+      <!-- No Attendees Message -->
+      <ng-template #noAttendees>
+        <p class="text-gray-500 italic">No attendees for this event.</p>
+      </ng-template>
 
     </div>
   </div>
