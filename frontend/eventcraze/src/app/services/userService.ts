@@ -19,4 +19,9 @@ export class UserService {
   updateUser(userId: string, userData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${userId}`, userData);
   }
+
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`); // Adjust endpoint if necessary
+  }
+  
 }

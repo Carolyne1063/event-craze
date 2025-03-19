@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
+import { UserService } from '../../../services/userService';
 
 interface User {
   id: string;
   firstname: string;
   lastname: string;
   email: string;
-  phone: string;
+  phoneNo: string;
   address: string;
   imageUrl?: string;
 }
@@ -22,59 +22,57 @@ interface User {
 })
 export class UsersComponent {
   searchQuery: string = '';
+  users: User[] = [];
+  selectedUser: User = this.createEmptyUser(); // Initialize with a default user
 
-   users: User[] = [
-    {
-      id: '1',
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'john.doe@example.com',
-      phone: '+123456789',
-      address: '123 Main St, Cityville',
-      imageUrl: 'https://randomuser.me/api/portraits/men/1.jpg'
-    },
-    {
-      id: '2',
-      firstname: 'Jane',
-      lastname: 'Smith',
-      email: 'jane.smith@example.com',
-      phone: '+987654321',
-      address: '456 Elm St, Townsville',
-      imageUrl: 'https://randomuser.me/api/portraits/women/2.jpg'
-    },
-    {
-      id: '3',
-      firstname: 'Alice',
-      lastname: 'Johnson',
-      email: 'alice.johnson@example.com',
-      phone: '+192837465',
-      address: '789 Oak St, Villagetown',
-      imageUrl: 'https://randomuser.me/api/portraits/women/3.jpg'
-    },
-    {
-      id: '4',
-      firstname: 'Bob',
-      lastname: 'Williams',
-      email: 'bob.williams@example.com',
-      phone: '+5647382910',
-      address: '159 Pine St, Suburbia',
-      imageUrl: 'https://randomuser.me/api/portraits/men/4.jpg'
-    }
-  ];
+  constructor(private userService: UserService) {}
 
-  selectedUser: User = this.users[0]; // Default selection
+  ngOnInit(): void {
+    this.fetchUsers();
+  }
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  fetchUsers(): void {
+    this.userService.getAllUsers().subscribe(
+      (data: any[]) => { // Use 'any[]' to avoid type issues
+        this.users = data.map(user => ({
+          id: user.id,
+          firstname: user.firstName,  // Fix casing
+          lastname: user.lastName,    // Fix casing
+          email: user.email,
+          phoneNo: user.phoneNo,
+          address: user.address || '', // Ensure address is handled
+          imageUrl: user.image || 'https://picsum.photos/150' // Fix image naming
+        }));
+  
+        if (this.users.length > 0) {
+          this.selectedUser = this.users[0]; // Select the first user by default
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching users:', error);
+      }
+    );
+  }  
 
   selectUser(user: User) {
-    this.selectedUser = user; // Update user details dynamically
+    this.selectedUser = user;
   }
 
   filteredUsers() {
-    return this.users.filter(user => 
+    return this.users.filter(user =>
       `${user.firstname} ${user.lastname}`.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
+  }
+
+  private createEmptyUser(): User {
+    return {
+      id: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      phoneNo: '',
+      address: '',
+      imageUrl: 'https://via.placeholder.com/150'
+    };
   }
 }
