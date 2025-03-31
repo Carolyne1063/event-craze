@@ -3,7 +3,7 @@ POST http://localhost:3000/api/events/create
 Content-Type: application/json
 
 {
-  "eventName": "ABCDE tbdeleted",
+  "eventName": " tbdeleted",
   "date": "2025-09-15T10:00:00.000Z",
   "time": "10:00 AM",
   "location": "Chuka, Kenya",
