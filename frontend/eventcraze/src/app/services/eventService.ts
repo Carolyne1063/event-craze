@@ -10,6 +10,7 @@ interface Event {
   time: string;
   location: string;
   description: string;
+  totalTickets: number; 
   tickets: { type: string; price: number }[];
 }
 

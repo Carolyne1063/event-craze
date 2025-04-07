@@ -28,7 +28,30 @@ export class EventsComponent {
 
   showCreateForm: boolean = false;
 
+    // For deletion confirmation popup
+    showDeleteConfirm: boolean = false;
+    eventIdToDelete: string | null = null;
+
+     // For displaying success messages
+  successMessage: string = '';
+
   constructor(private eventService: EventService) {}
+
+  ngOnInit(): void {
+    this.loadEvents();
+  }
+
+  // Fetch events from the backend using the event service
+  loadEvents(): void {
+    this.eventService.getEvents().subscribe(
+      (data: Event[]) => {
+        this.events = data;
+      },
+      error => {
+        console.error('Error fetching events:', error);
+      }
+    );
+  }
 
   // Open the form to create a new event
   openCreateForm(): void {
@@ -107,8 +130,40 @@ export class EventsComponent {
     // Logic to edit the event (navigate to edit page, show form, etc.)
   }
 
-  confirmDelete(eventId: string): void {
-    console.log('Confirming deletion of event with ID:', eventId);
-    // Add your confirmation logic here (e.g., call backend API to delete the event)
+ // Instead of using alert(), use a custom confirmation popup
+ promptDelete(eventId: string): void {
+  this.eventIdToDelete = eventId;
+  this.showDeleteConfirm = true;
+}
+
+// Called when the user confirms deletion in the popup
+deleteConfirmed(): void {
+  if (this.eventIdToDelete) {
+    this.eventService.deleteEvent(this.eventIdToDelete).subscribe({
+      next: () => {
+        this.events = this.events.filter(e => e.id !== this.eventIdToDelete);
+        this.displaySuccess("Event deleted successfully");
+        this.showDeleteConfirm = false;
+        this.eventIdToDelete = null;
+      },
+      error: error => {
+        console.error('Error deleting event:', error);
+      }
+    });
   }
+}
+
+// Cancel deletion popup
+cancelDeleteConfirmation(): void {
+  this.showDeleteConfirm = false;
+  this.eventIdToDelete = null;
+}
+
+// Display a success message for 3 seconds
+displaySuccess(message: string): void {
+  this.successMessage = message;
+  setTimeout(() => {
+    this.successMessage = '';
+  }, 3000);
+}
 }
