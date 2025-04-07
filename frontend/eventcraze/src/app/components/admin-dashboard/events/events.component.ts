@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EventService } from '../../../services/eventService';
 import { v4 as uuidv4 } from 'uuid'; // Import UUID generator
+import { TicketService } from '../../../services/ticketService';
 
 interface Event {
   id: string;
@@ -15,6 +16,12 @@ interface Event {
   totalTickets: number;
 }
 
+interface Ticket {
+  type: string;
+  price: number;
+  quantity: number;
+}
+
 @Component({
   selector: 'app-events',
   standalone: true,
@@ -25,6 +32,8 @@ interface Event {
 export class EventsComponent {
   events: Event[] = [];
   newEvent: Event = this.resetEvent();
+  newTicket: Ticket = { type: '', price: 0, quantity: 0 };
+  showTicketForm: boolean = false;
 
   showCreateForm: boolean = false;
 
@@ -35,7 +44,7 @@ export class EventsComponent {
      // For displaying success messages
   successMessage: string = '';
 
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService,  private ticketService: TicketService) {}
 
   ngOnInit(): void {
     this.loadEvents();
@@ -75,7 +84,13 @@ export class EventsComponent {
           console.log('Event created successfully:', response);
           if (response && response.id) {
             this.newEvent.id = response.id;
-            this.showCreateForm = false; // Close the form after creation
+            this.showCreateForm = false;
+            this.showTicketForm = true; // 👈 Show ticket form after event creation
+            // Close the form after creation
+            this.newTicket = { type: '', price: 0, quantity: 0 }; // Reset ticket form
+            setTimeout(() => (this.successMessage = ''), 3000);
+            this.successMessage = 'Event created successfully!';
+            this.loadEvents(); // Reload events after creation
           } else {
             console.error('Event creation failed: No ID received');
           }
@@ -87,6 +102,26 @@ export class EventsComponent {
     }
   }
 
+  createTicket(): void {
+    const ticketData = {
+      eventId: this.newEvent.id,
+      type: this.newTicket.type,
+      price: this.newTicket.price,
+      quantity: this.newTicket.quantity
+    };
+
+    this.ticketService.createTicket(ticketData).subscribe({
+      next: (res: any) => {
+        this.successMessage = 'Ticket created successfully!';
+        this.showTicketForm = true;
+        this.newTicket = {type: '', price: 0, quantity: 0 };
+        setTimeout(() => (this.successMessage = ''), 3000);
+      },
+      error: (err: any) => {
+        console.error('Error creating ticket:', err);
+      }
+    });
+  }
   // Validate if the form fields are filled out
   isFormValid(): boolean {
     return !!(this.newEvent.eventName && this.newEvent.date && this.newEvent.location &&

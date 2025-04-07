@@ -63,6 +63,36 @@
     </div>
   </div>
 
+  <!-- Ticket Creation Form (shown after event is created) -->
+<div *ngIf="showTicketForm" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h3 class="text-xl font-semibold mb-4">Create Ticket for: {{ newEvent.eventName }}</h3>
+
+    <form (ngSubmit)="createTicket()">
+      <div class="mb-4">
+        <label class="block text-gray-700">Ticket Type</label>
+        <input [(ngModel)]="newTicket.type" name="type" class="w-full p-2 border rounded" required />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700">Price</label>
+        <input [(ngModel)]="newTicket.price" name="price" class="w-full p-2 border rounded" type="number" required />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700">Quantity</label>
+        <input [(ngModel)]="newTicket.quantity" name="quantity" class="w-full p-2 border rounded" type="number" required />
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Create Ticket</button>
+        <button type="button" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                (click)="showTicketForm = false">Close</button>
+      </div>
+    </form>
+  </div>
+</div>
+
     <!-- Custom Delete Confirmation Popup -->
     <div *ngIf="showDeleteConfirm" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div class="bg-white p-6 rounded shadow-lg">

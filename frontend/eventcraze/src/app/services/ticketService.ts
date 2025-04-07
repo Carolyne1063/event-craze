@@ -23,11 +23,6 @@ export class TicketService {
     return this.http.post<Ticket>(`${this.apiUrl}/create`, ticket);
   }
 
-  // Create multiple tickets at once
-  createTickets(tickets: Ticket[]): Observable<Ticket[]> {
-    return this.http.post<Ticket[]>(`${this.apiUrl}/bulk-create`, tickets);
-  }
-
   // Get tickets by event ID
   getTicketsByEvent(eventId: string): Observable<Ticket[]> {
     return this.http.get<Ticket[]>(`${this.apiUrl}/event/${eventId}`);
