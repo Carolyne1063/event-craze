@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { EventService } from '../../../services/eventService';
+import { BookingService } from '../../../services/bookingService';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,32 +11,38 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  totalBookings: number = 120;
-  totalRevenue: number = 30500;
-  upcomingEvents: number = 8;
-  activeUsers: number = 450;
+  eventsWithBookings: any[] = [];
 
-  events = [
-    { name: "Music Festival", salesPercentage: 85, ticketsSold: 850, totalTickets: 1000 },
-    { name: "Tech Conference", salesPercentage: 60, ticketsSold: 600, totalTickets: 1000 },
-    { name: "Sports Tournament", salesPercentage: 75, ticketsSold: 750, totalTickets: 1000 },
-  ];
-
-  topManagers = [
-    { name: "Alice Johnson", revenueGenerated: 12000 },
-    { name: "David Smith", revenueGenerated: 9800 },
-    { name: "Sophia Brown", revenueGenerated: 7500 }
-  ];
-
-  recentBookings = [
-    { eventName: "Music Festival", userName: "John Doe", tickets: 2, totalPrice: 100 },
-    { eventName: "Tech Conference", userName: "Jane Smith", tickets: 1, totalPrice: 200 },
-    { eventName: "Sports Tournament", userName: "Emma Wilson", tickets: 3, totalPrice: 150 }
-  ];
-
-  constructor() { }
+  constructor(
+    private eventService: EventService,
+    private bookingService: BookingService
+  ) {}
 
   ngOnInit(): void {
-    // You can fetch real data here using an API call
+    this.loadEventAnalytics();
+  }
+
+  loadEventAnalytics() {
+    this.eventService.getEvents().subscribe((events: any[]) => {
+      events.forEach((event: { id: any; }) => {
+        this.bookingService.getBookingsByEvent(event.id).subscribe((bookings: any) => {
+          this.eventsWithBookings.push({
+            ...event,
+            bookings: bookings || [],
+          });
+        });
+      });
+    });
+  }
+
+  calculateRevenue(bookings: any[]): number {
+    return bookings.reduce((total, booking) => {
+      return total + booking.quantity * booking.ticket.price;
+    }, 0);
+  }
+
+  getCapacityUsage(event: any): number {
+    const booked = event.bookings.reduce((sum: number, b: any) => sum + b.quantity, 0);
+    return Math.min(100, Math.round((booked / event.totalTickets) * 100));
   }
 }
