@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Get Bookings by User
-GET http://localhost:3000/api/bookings/1c604e74-c498-48a4-9331-d5a7b0b4f1cf
+GET http://localhost:3000/api/bookings/5ccfa163-add3-4315-b041-76facda18fd1
 Content-Type: application/json
 
 ### Get a Booking by ID
@@ -18,7 +18,7 @@ GET http://localhost:3000/api/bookings/5a54159c-42e6-4018-8fa8-bd34a31fd8ef
 Content-Type: application/json
 
 ### Cancel a Booking
-DELETE http://localhost:3000/api/bookings/e371cd1b-3604-47a6-9a7f-e92e92098762
+DELETE http://localhost:3000/api/bookings/9c854300-4ec7-48ca-9862-f61b5831983a
 Content-Type: application/json
 
 ### Update a Booking

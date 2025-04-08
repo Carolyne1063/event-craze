@@ -18,15 +18,15 @@ GET http://localhost:3000/api/events/
 ### Get a Single Event by ID
 GET http://localhost:3000/api/events/7404b8f8-11e6-41c9-b821-a1878cc46ef2
 ### Update an Event
-PUT http://localhost:3000/api/events/1d1d021e-8be1-4285-b747-dfda98b9cafa
+PUT http://localhost:3000/api/events/3d7937ca-01fc-4531-bf17-61d235ef2dd5
 Content-Type: application/json
 
 {
-  "eventName": "Updated Raha rAVE DELETE Event",
+  "eventName": "Robotics Event",
   "date": "2025-10-20T10:00:00.000Z",
   "time": "11:00 AM",
-  "location": "Mombasa, Kenya",
-  "description": "An updated RnB event.",
+  "location": "BSR 001",
+  "description": "Lets make robots!",
   "totalTickets": 100
 }
 
