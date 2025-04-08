@@ -17,6 +17,8 @@ export class DashboardComponent {
   totalEvents: number = 0;
   totalUsers: number = 0;
   totalBookings: number = 0;
+  totalRevenue: number = 0;
+
 
   constructor(
     private eventService: EventService,
@@ -62,9 +64,17 @@ export class DashboardComponent {
       this.totalEvents = events.length;
 
       let bookingsCount = 0;
+      let totalRevenue = 0;
+
       let eventBookingsPromises = events.map((event: any) => {
         return this.bookingService.getBookingsByEvent(event.id).toPromise().then((bookings: any[]) => {
           bookingsCount += bookings.length;
+             // 👇 Calculate revenue per event
+        const eventRevenue = bookings.reduce((total, booking) => {
+          return total + booking.quantity * booking.ticket.price;
+        }, 0);
+
+        totalRevenue += eventRevenue;
           return {
             ...event,
             bookings: bookings || [],
@@ -75,6 +85,8 @@ export class DashboardComponent {
       Promise.all(eventBookingsPromises).then((eventData) => {
         this.eventsWithBookings = eventData;
         this.totalBookings = bookingsCount;
+        this.totalRevenue = totalRevenue;
+
       });
     });
 
