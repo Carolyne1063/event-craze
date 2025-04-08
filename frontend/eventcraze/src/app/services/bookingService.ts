@@ -15,7 +15,7 @@ export class BookingService {
   }
 
   getUserBookings(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${userId}`);
+    return this.http.get(`${this.apiUrl}/${userId}`);
   }
 
   getBookingById(bookingId: string): Observable<any> {

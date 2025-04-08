@@ -18,11 +18,11 @@ GET http://localhost:3000/api/events/
 ### Get a Single Event by ID
 GET http://localhost:3000/api/events/7404b8f8-11e6-41c9-b821-a1878cc46ef2
 ### Update an Event
-PUT http://localhost:3000/api/events/6fa941ec-b950-42fc-a931-5b1396162e09
+PUT http://localhost:3000/api/events/1d1d021e-8be1-4285-b747-dfda98b9cafa
 Content-Type: application/json
 
 {
-  "eventName": "Updated ABCDE",
+  "eventName": "Updated Raha rAVE DELETE Event",
   "date": "2025-10-20T10:00:00.000Z",
   "time": "11:00 AM",
   "location": "Mombasa, Kenya",

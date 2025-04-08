@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../auth.service';
 import { UserService } from '../../../services/userService';
+import { NotificationService } from '../../../services/notificationService';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,10 +17,12 @@ export class SidebarComponent implements OnInit {
   userName: string = 'User Name'; // Default placeholder
   userRole: string = 'User'; // Default role
   profileImage: string = ''; // Default image (empty for now)
+  unreadCount: number = 0;
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(private authService: AuthService, private userService: UserService, private notificationService: NotificationService) {}
 
   ngOnInit() {
+
     const userId = this.authService.getUserId(); // Get the logged-in user's ID
 
     if (userId) {

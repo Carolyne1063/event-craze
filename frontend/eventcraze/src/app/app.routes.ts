@@ -13,6 +13,7 @@ import { UserSettingsComponent } from './components/user-dashboard/user-settings
 import { UserEventsComponent } from './components/user-dashboard/user-events/user-events.component';
 import { AuthGuard } from './auth.guard';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { NotificationComponent } from './components/user-dashboard/notification/notification.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -31,6 +32,7 @@ export const routes: Routes = [
 
     { path: 'user-dashboard/:userId', component: UserDashboardComponent, canActivate: [AuthGuard], 
         children: [
+          { path: 'notifications', component: NotificationComponent},
           { path: 'events', component: UserEventsComponent },
           { path: 'bookings', component: MyBookingsComponent },
           { path: 'settings', component: UserSettingsComponent },

@@ -1,0 +1,18 @@
+<!-- src/app/components/notification-center/notification-center.component.html -->
+
+<div class="p-5">
+    <h1 class="text-2xl font-bold mb-4">My Notifications</h1>
+    <div *ngFor="let notification of notifications" 
+         class="p-4 mb-4 border rounded shadow hover:bg-gray-100" 
+         [ngClass]="{'bg-gray-200': notification.isRead}">
+      <p class="text-lg">{{ notification.message }}</p>
+      <small class="text-gray-600">{{ notification.createdAt | date:'short' }}</small>
+      <!-- <div *ngIf="!notification.isRead" class="mt-2">
+        <button (click)="markAsRead(notification.id)" 
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+          Mark as Read
+        </button>
+      </div> -->
+    </div>
+  </div>
+  

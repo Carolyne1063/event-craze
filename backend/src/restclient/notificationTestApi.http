@@ -1,5 +1,5 @@
 ###Get notifications
-GET http://localhost:3000/api/notifications/7d882998-cbe2-4e8a-af8f-2abe3695c3e0
+GET http://localhost:3000/api/notifications/1c604e74-c498-48a4-9331-d5a7b0b4f1cf
 
 ###Mark notification as read
 PUT http://localhost:3000/api/notifications/3e34d47c-c949-4758-8512-da7fdca4d782/read

@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Get Bookings by User
-GET http://localhost:3000/api/bookings/c4d38d10-34f1-4771-bec2-89ea39c64b6b
+GET http://localhost:3000/api/bookings/1c604e74-c498-48a4-9331-d5a7b0b4f1cf
 Content-Type: application/json
 
 ### Get a Booking by ID
