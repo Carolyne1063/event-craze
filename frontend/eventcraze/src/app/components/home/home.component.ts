@@ -1,7 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { EventService } from '../../services/eventService';
 
+interface Event {
+  id: string;
+  eventName: string;
+  image: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
+  totalTickets: number;
+  tickets: { type: string; price: number }[];
+}
 
 @Component({
   selector: 'app-home',
@@ -10,7 +22,8 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  events: Event[] = [];
   images: string[] = [
     'assets/hero1.jpeg',
     'assets/hero2.jpeg',
@@ -20,11 +33,28 @@ export class HomeComponent {
 
   currentIndex = 0;
 
-  constructor() {
+  constructor(private eventService: EventService) {}
+
+  ngOnInit(): void {
+    this.fetchEvents();
     this.startAutoSlide();
   }
 
-  // Start auto-slide every 5 seconds
+  fetchEvents(): void {
+    this.eventService.getEvents().subscribe({
+      next: (data: Event[]) => {
+        this.events = data.map(event => ({
+          ...event,
+          title: event.eventName,     // if your HTML template uses `event.title`
+          category: 'Music'           // dummy category, replace if needed
+        }));
+      },
+      error: (err: any) => {
+        console.error('Error fetching events:', err);
+      }
+    });
+  }
+
   startAutoSlide(): void {
     setInterval(() => {
       this.nextSlide();
@@ -42,50 +72,4 @@ export class HomeComponent {
   goToSlide(index: number): void {
     this.currentIndex = index;
   }
-
-  events = [
-    {
-      title: 'Tech Symposium 2025',
-      date: 'March 20, 2025',
-      location: 'Harvard University, MA',
-      image: 'assets/techevent.jpeg',
-      category: 'Technology'
-    },
-    {
-      title: 'University Sports Day',
-      date: 'July 22, 2025',
-      location: 'Oxford University, UK',
-      image: 'assets/sportevent.jpeg',
-      category: 'Sports'
-    },
-    {
-      title: 'College Comedy Jam',
-      date: 'August 14, 2025',
-      location: 'Yale University, CT',
-      image: 'assets/comedyevent.jpeg',
-      category: 'Comedy'
-    },
-    {
-      title: 'University Music Fest',
-      date: 'April 15, 2025',
-      location: 'Stanford University, CA',
-      image: 'assets/musicevent.jpeg',
-      category: 'Music'
-    },
-    {
-      title: 'AI & Robotics Expo',
-      date: 'May 10, 2025',
-      location: 'MIT, Cambridge',
-      image: 'assets/roboticsevent.jpeg',
-      category: 'Innovation'
-    },
-    {
-      title: 'Campus Movie Night',
-      date: 'June 5, 2025',
-      location: 'UCLA, Los Angeles',
-      image: 'assets/movieevent.jpeg',
-      category: 'Entertainment'
-    }
-
-  ];
 }

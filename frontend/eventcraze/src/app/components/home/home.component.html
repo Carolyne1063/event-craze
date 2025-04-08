@@ -99,7 +99,7 @@
             <img [src]="event.image" alt="Event Image" class="w-full h-64 object-cover">
 
             <div class="p-5">
-                <h3 class="text-xl font-bold text-gray-800">{{ event.title }}</h3>
+                <h3 class="text-xl font-bold text-gray-800">{{ event.eventName }}</h3>
                 <p class="text-blue-600 font-semibold">{{ event.date }}</p>
                 <p class="text-gray-600 mt-2">{{ event.location }}</p>
 
@@ -109,7 +109,7 @@
                             Book Ticket
                         </button>
                     </a>
-                    <span class="text-gray-500 text-sm">{{ event.category }}</span>
+                    <!-- <span class="text-gray-500 text-sm">{{ event.category }}</span> -->
                 </div>
             </div>
         </div>
