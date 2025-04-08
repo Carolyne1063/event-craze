@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { EventService } from '../../../services/eventService';
 import { BookingService } from '../../../services/bookingService';
+import { UserService } from '../../../services/userService'; // make sure this service exists
+
 
 @Component({
   selector: 'app-dashboard',
@@ -12,15 +14,24 @@ import { BookingService } from '../../../services/bookingService';
 })
 export class DashboardComponent {
   eventsWithBookings: any[] = [];
+  totalEvents: number = 0;
+  totalUsers: number = 0;
+  totalBookings: number = 0;
 
   constructor(
     private eventService: EventService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private userService: UserService
+
+
   ) {}
 
   ngOnInit(): void {
     this.loadEventAnalytics();
+    this.loadSummaryStats();
   }
+
+  
 
   loadEventAnalytics() {
     this.eventService.getEvents().subscribe((events: any[]) => {
@@ -45,4 +56,31 @@ export class DashboardComponent {
     const booked = event.bookings.reduce((sum: number, b: any) => sum + b.quantity, 0);
     return Math.min(100, Math.round((booked / event.totalTickets) * 100));
   }
+
+  loadSummaryStats() {
+    this.eventService.getEvents().subscribe((events: any[]) => {
+      this.totalEvents = events.length;
+
+      let bookingsCount = 0;
+      let eventBookingsPromises = events.map((event: any) => {
+        return this.bookingService.getBookingsByEvent(event.id).toPromise().then((bookings: any[]) => {
+          bookingsCount += bookings.length;
+          return {
+            ...event,
+            bookings: bookings || [],
+          };
+        });
+      });
+
+      Promise.all(eventBookingsPromises).then((eventData) => {
+        this.eventsWithBookings = eventData;
+        this.totalBookings = bookingsCount;
+      });
+    });
+
+    this.userService.getAllUsers().subscribe((users: any[]) => {
+      this.totalUsers = users.length;
+    });
+  }
+
 }
