@@ -28,8 +28,8 @@ export class UserEventsComponent implements OnInit {
   selectedEvent: Event | null = null;
   selectedTicketType: string = '';
   selectedQuantity: number = 1;
-  successMessage: string = '';  // ✅ Success message
-  errorMessage: string = '';    // ✅ Error message
+  successMessage: string = '';  
+  errorMessage: string = '';    
 
   constructor(
     private eventService: EventService, 
@@ -56,7 +56,7 @@ export class UserEventsComponent implements OnInit {
     this.selectedEvent = event;
     this.selectedTicketType = event.tickets.length > 0 ? event.tickets[0].type : '';
     this.selectedQuantity = 1;
-    this.successMessage = ''; // Reset messages
+    this.successMessage = ''; 
     this.errorMessage = '';
   }
 

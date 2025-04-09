@@ -25,7 +25,7 @@ export class LoginRegisterComponent {
       phoneNo: ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      image: [''] // Added image field
+      image: [''] 
     });
 
     this.loginForm = this.fb.group({
@@ -45,16 +45,16 @@ export class LoginRegisterComponent {
     this.authService.register(user).subscribe({
       next: () => {
         this.successMessage = 'Registration Successful!';
-        this.errorMessage = ''; // Clear errors
-        this.registerForm.reset(); // Reset form
+        this.errorMessage = ''; 
+        this.registerForm.reset(); 
         setTimeout(() => {
-          this.successMessage = ''; // Hide message
-          this.isLoginActive = true; // Switch to login form
+          this.successMessage = ''; 
+          this.isLoginActive = true; 
         }, 2000);
       },
       error: (error) => {
         this.errorMessage = error.error.message || 'Registration failed!';
-        this.successMessage = ''; // Clear success message
+        this.successMessage = ''; 
       }
     });
   }
@@ -64,22 +64,22 @@ export class LoginRegisterComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => {
           this.successMessage = 'Login Successful!';
-          this.errorMessage = ''; // Clear errors
+          this.errorMessage = ''; 
   
           setTimeout(() => {
-            this.successMessage = ''; // Hide message before redirect
+            this.successMessage = ''; 
             const role = this.authService.getUserRole();
-            const userId = this.authService.getUserId(); // Fix: Fetch userId correctly  
+            const userId = this.authService.getUserId();   
             if (role === 'ADMIN') {
               this.router.navigate(['/admin-dashboard']);
             } else {
-              this.router.navigate([`/user-dashboard/${userId}`]); // Redirect to user-specific dashboard
+              this.router.navigate([`/user-dashboard/${userId}`]); 
             }
-          }, 2000); // Delay redirection
+          }, 2000); 
         },
         error: (err) => {
           this.errorMessage = err.error.message || 'Invalid email or password!';
-          this.successMessage = ''; // Clear success message
+          this.successMessage = ''; 
         }
       });
     }
@@ -87,6 +87,6 @@ export class LoginRegisterComponent {
 
   toggleForm(): void {
     this.isLoginActive = !this.isLoginActive;
-    this.errorMessage = ''; // Clear error message when switching forms
+    this.errorMessage = ''; 
   }
 }

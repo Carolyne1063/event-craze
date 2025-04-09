@@ -28,7 +28,7 @@ app.use('/api/tickets', ticketRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/notifications", notificationRoutes);
-app.use('/api/auth', forgotPasswordRoutes); // This must match the frontend URL
+app.use('/api/auth', forgotPasswordRoutes); 
 
 
 
@@ -43,7 +43,6 @@ app.post('/stk', async (req: Request, res: Response, next: NextFunction): Promis
   }
 });
 
-// MPESA Callback endpoint to save transaction details
 // MPESA Callback endpoint to save transaction details
 app.post('/callback', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   console.log("MPESA Response:", req.body);

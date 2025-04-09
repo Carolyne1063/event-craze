@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import { EventController } from "../controllers/eventController";
 
 const router = express.Router();
-const eventController = new EventController(); // ✅ Instantiate the class
+const eventController = new EventController(); 
 
 router.post("/create", asyncHandler(eventController.createEvent.bind(eventController)));
 router.get("/:id", asyncHandler(eventController.getEventById.bind(eventController)));

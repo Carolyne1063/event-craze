@@ -1,15 +1,13 @@
 <aside class="h-screen bg-blue-900 text-white p-5 w-64 transition-all duration-300 fixed left-0 top-0 flex flex-col space-y-4" [ngClass]="{'w-16 p-2': isCollapsed}" id="sidebar">
   <!-- Profile Section -->
   <div class="flex items-center space-x-3 mb-6">
-    <img [src]="profileImage" alt="Profile" class="w-12 h-12 rounded-full object-cover" /> <!-- Profile Picture -->
+    <img [src]="profileImage" alt="Profile" class="w-12 h-12 rounded-full object-cover" /> 
     <div *ngIf="!isCollapsed">
-      <span class="text-white font-semibold">{{ userName }}</span> <!-- User Name -->
-      <p class="text-gray-300 text-sm">{{ userRole }}</p> <!-- User Role -->
+      <span class="text-white font-semibold">{{ userName }}</span> 
+      <p class="text-gray-300 text-sm">{{ userRole }}</p> 
     </div>
   </div>
 
-  
-  <!-- Notification Bell (inserted between Profile and Events) -->
   <nav>
     <ul class="space-y-4">
       <li>

@@ -12,21 +12,20 @@ import { AuthService } from '../../../auth.service';
   styleUrl: './notification.component.css'
 })
 export class NotificationComponent {
-  userId: string = ''; // Store logged-in user ID
+  userId: string = ''; 
   notifications: AppNotification[] = [];
 
   constructor(private notificationService: NotificationService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userId = this.authService.getUserId() ?? ''; // Prevent null values
-    console.log('User ID:', this.userId); // Debugging
+    this.userId = this.authService.getUserId() ?? ''; 
+    console.log('User ID:', this.userId); 
     if (!this.userId) {
       console.error('User ID is missing. Redirecting to login...');
       return;
     }
     this.notificationService.getNotifications(this.userId).subscribe(
       (notifications: AppNotification[]) => {
-        // Now notifications are of type AppNotification[] and no conflict occurs.
         this.notifications = notifications;
       },
       (error: any) => {

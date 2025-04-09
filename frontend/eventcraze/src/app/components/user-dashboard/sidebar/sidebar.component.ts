@@ -14,23 +14,23 @@ import { NotificationService } from '../../../services/notificationService';
 })
 export class SidebarComponent implements OnInit {
   isCollapsed = false;
-  userName: string = 'User Name'; // Default placeholder
-  userRole: string = 'User'; // Default role
-  profileImage: string = ''; // Default image (empty for now)
+  userName: string = 'User Name'; 
+  userRole: string = 'User'; 
+  profileImage: string = ''; 
   unreadCount: number = 0;
 
   constructor(private authService: AuthService, private userService: UserService, private notificationService: NotificationService) {}
 
   ngOnInit() {
 
-    const userId = this.authService.getUserId(); // Get the logged-in user's ID
+    const userId = this.authService.getUserId(); 
 
     if (userId) {
       this.userService.getUser(userId).subscribe({
         next: (user) => {
-          this.userName = `${user.firstName} ${user.lastName}`; // Full name
-          this.profileImage = user.image || 'assets/default-profile.png'; // Use default if no image
-          this.userRole = user.role || 'User'; // Default to 'User' if no role is set
+          this.userName = `${user.firstName} ${user.lastName}`; 
+          this.profileImage = user.image || 'assets/default-profile.png'; 
+          this.userRole = user.role || 'User'; 
         },
         error: (err) => {
           console.error('Failed to fetch user data:', err);

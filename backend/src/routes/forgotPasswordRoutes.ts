@@ -3,12 +3,11 @@ import { forgotPassword, verifyOtp, resetPassword } from '../controllers/forgotP
 
 const router = express.Router();
 
-// ✅ Ensure async handlers are passed correctly
 router.post('/forgot-password', async (req, res, next) => {
     try {
         await forgotPassword(req, res);
     } catch (error) {
-        next(error); // Pass errors to Express error handler
+        next(error); 
     }
 });
 

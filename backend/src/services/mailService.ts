@@ -6,12 +6,12 @@ class MailService {
   constructor() {
     // Create a transporter object using SMTP transport.
     this.transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST, // e.g., "smtp.gmail.com"
-        port: Number(process.env.SMTP_PORT), // e.g., 465
-        secure: process.env.SMTP_SECURE === "true", // true for port 465, false for others
+        host: process.env.SMTP_HOST, 
+        port: Number(process.env.SMTP_PORT), 
+        secure: process.env.SMTP_SECURE === "true", 
         auth: {
-          user: process.env.SMTP_USER, // your email address
-          pass: process.env.SMTP_PASS, // your app-specific password
+          user: process.env.SMTP_USER, 
+          pass: process.env.SMTP_PASS, 
         },
         tls: {
           // This option allows self-signed certificates (for development only!)
@@ -24,7 +24,7 @@ class MailService {
   // Generic method to send an email.
   async sendMail(to: string, subject: string, text: string, html?: string) {
     const info = await this.transporter.sendMail({
-      from: process.env.SMTP_FROM, // e.g., '"EventCraze" <no-reply@eventcraze.com>'
+      from: process.env.SMTP_FROM, 
       to,
       subject,
       text,
@@ -60,8 +60,6 @@ class MailService {
     return this.sendMail(email, subject, text, html);
   }
 
-  // In MailService class
-
 // Send a booking update email.
 async sendBookingUpdatedEmail(email: string, bookingDetails: any) {
   const subject = "Booking Updated - EventCraze";
@@ -73,7 +71,5 @@ async sendBookingUpdatedEmail(email: string, bookingDetails: any) {
 }
 
 }
-
-
 
 export default new MailService();

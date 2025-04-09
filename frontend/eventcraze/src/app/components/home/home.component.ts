@@ -45,8 +45,8 @@ export class HomeComponent implements OnInit {
       next: (data: Event[]) => {
         this.events = data.map(event => ({
           ...event,
-          title: event.eventName,     // if your HTML template uses `event.title`
-          category: 'Music'           // dummy category, replace if needed
+          title: event.eventName,    
+          category: 'Music'           
         }));
       },
       error: (err: any) => {

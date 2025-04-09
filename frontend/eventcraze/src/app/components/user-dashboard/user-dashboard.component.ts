@@ -17,8 +17,8 @@ export class UserDashboardComponent {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.userId = params.get('userId'); // Get userId from URL
-      console.log('User Dashboard for:', this.userId); // Debugging
+      this.userId = params.get('userId'); 
+      console.log('User Dashboard for:', this.userId); 
     });
   }
 }

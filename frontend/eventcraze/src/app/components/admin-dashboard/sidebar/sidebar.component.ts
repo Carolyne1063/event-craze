@@ -13,20 +13,20 @@ import { AuthService } from '../../../auth.service';
 })
 export class SidebarComponent implements OnInit {
   isCollapsed = false;
-  adminName: string = 'Admin'; // Default placeholder
+  adminName: string = 'Admin'; 
   adminRole: string = 'Admin';
   adminId: string | null = '';
-  profileImage: string = 'assets/default-profile.png'; // Default image
+  profileImage: string = 'assets/default-profile.png'; 
 
   constructor(private userService: UserService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.adminId = this.authService.getUserId();
-    console.log('Admin ID:', this.adminId); // Debugging line
+    console.log('Admin ID:', this.adminId); 
     if (this.adminId) {
       this.userService.getUser(this.adminId).subscribe(
         (user) => {
-          console.log('Fetched User:', user); // Debugging line
+          console.log('Fetched User:', user); 
           this.adminName = `${user.firstName} ${user.lastName}`;
           this.adminRole = user.role || 'Admin';
           this.profileImage = user.image || 'assets/default-profile.png';

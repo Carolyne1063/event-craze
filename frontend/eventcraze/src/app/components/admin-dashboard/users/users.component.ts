@@ -23,7 +23,7 @@ interface User {
 export class UsersComponent {
   searchQuery: string = '';
   users: User[] = [];
-  selectedUser: User = this.createEmptyUser(); // Initialize with a default user
+  selectedUser: User = this.createEmptyUser(); 
 
   constructor(private userService: UserService) {}
 
@@ -33,19 +33,19 @@ export class UsersComponent {
 
   fetchUsers(): void {
     this.userService.getAllUsers().subscribe(
-      (data: any[]) => { // Use 'any[]' to avoid type issues
+      (data: any[]) => { 
         this.users = data.map(user => ({
           id: user.id,
-          firstname: user.firstName,  // Fix casing
-          lastname: user.lastName,    // Fix casing
+          firstname: user.firstName,  
+          lastname: user.lastName,    
           email: user.email,
           phoneNo: user.phoneNo,
-          address: user.address || '', // Ensure address is handled
-          imageUrl: user.image || 'https://picsum.photos/150' // Fix image naming
+          address: user.address || '', 
+          imageUrl: user.image || 'https://picsum.photos/150' 
         }));
   
         if (this.users.length > 0) {
-          this.selectedUser = this.users[0]; // Select the first user by default
+          this.selectedUser = this.users[0]; 
         }
       },
       (error: any) => {

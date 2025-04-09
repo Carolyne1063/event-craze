@@ -1,4 +1,3 @@
-// PaymentService.ts
 import axios from 'axios';
 import { config } from 'dotenv';
 config();
@@ -48,7 +47,7 @@ class PaymentService {
       PartyA: `254${phone}`,
       PartyB: shortcode,
       PhoneNumber: `254${phone}`,
-      CallBackURL: "https://b554-102-215-12-244.ngrok-free.app/callback", // make sure to set this in your .env
+      CallBackURL: "https://b554-102-215-12-244.ngrok-free.app/callback", 
       AccountReference: `EventBooking-${phone}`,
       TransactionDesc: "Payment for event booking",
     };

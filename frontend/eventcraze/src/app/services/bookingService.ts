@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class BookingService {
-  private apiUrl = 'http://localhost:3000/api/bookings'; // Adjust if necessary
+  private apiUrl = 'http://localhost:3000/api/bookings'; 
 
   constructor(private http: HttpClient) {}
 
@@ -30,7 +30,6 @@ export class BookingService {
     return this.http.put(`${this.apiUrl}/update/${bookingId}`, { newQuantity, newTicketType });
   }
 
-  // ✅ New method: Get bookings by event ID
   getBookingsByEvent(eventId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/event/${eventId}`);
   }

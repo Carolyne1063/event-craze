@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/auth'; // Update with your backend URL
+  private apiUrl = 'http://localhost:3000/api/auth'; 
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -21,8 +21,8 @@ export class AuthService {
       tap((response: any) => {
         localStorage.setItem('userToken', response.token);
         localStorage.setItem('userId', response.userId);
-        localStorage.setItem('userRole', response.role); // Store role
-        localStorage.setItem('username', response.firstName); // Store username (for redirection)
+        localStorage.setItem('userRole', response.role); 
+        localStorage.setItem('username', response.firstName); 
       })
     );
   }

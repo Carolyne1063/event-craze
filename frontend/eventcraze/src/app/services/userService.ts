@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api/auth'; // Ensure this matches your backend
+  private apiUrl = 'http://localhost:3000/api/auth'; 
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +21,7 @@ export class UserService {
   }
 
   getAllUsers(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}`); // Adjust endpoint if necessary
+    return this.http.get<any[]>(`${this.apiUrl}`); 
   }
   
 }

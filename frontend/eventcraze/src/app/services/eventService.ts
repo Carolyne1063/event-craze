@@ -18,7 +18,7 @@ interface Event {
   providedIn: 'root'
 })
 export class EventService {
-  private apiUrl = 'http://localhost:3000/api/events'; // Change this to match your backend URL
+  private apiUrl = 'http://localhost:3000/api/events'; 
 
   constructor(private http: HttpClient) {}
 
@@ -30,7 +30,7 @@ export class EventService {
     return this.http.post(`${this.apiUrl}/create`, eventData);
   }
   updateEvent(event: Event): Observable<Event> {
-    return this.http.put<Event>(`${this.apiUrl}/${event.id}`, event); // PUT request for updating
+    return this.http.put<Event>(`${this.apiUrl}/${event.id}`, event); 
   }
 
   deleteEvent(eventId: string): Observable<void> {

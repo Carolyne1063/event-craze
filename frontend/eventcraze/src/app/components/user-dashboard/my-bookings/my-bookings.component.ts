@@ -13,22 +13,22 @@ import { EventService } from '../../../services/eventService';
   styleUrl: './my-bookings.component.css'
 })
 export class MyBookingsComponent {
-  bookings: any[] = []; // Array to store user bookings
+  bookings: any[] = []; 
   selectedBooking: any = null;
   cancelBookingId: string | null = null; 
   showUpdateForm = false;
   showRefundMessage = false;
   showCancelConfirmation!: boolean;
-  userId: string = ''; // Store logged-in user ID
+  userId: string = ''; 
   showSuccessMessage = false;
   showErrorMessage = false;
-  ticketTypes: string[] = []; // Dynamically populated ticket types
+  ticketTypes: string[] = []; 
 
   constructor(private bookingService: BookingService, private authService: AuthService, private eventService: EventService) {}
 
   ngOnInit() {
-    this.userId = this.authService.getUserId() ?? ''; // Prevent null values
-    console.log('User ID:', this.userId); // Debugging
+    this.userId = this.authService.getUserId() ?? ''; 
+    console.log('User ID:', this.userId); 
     if (!this.userId) {
       console.error('User ID is missing. Redirecting to login...');
       return;
@@ -39,7 +39,7 @@ export class MyBookingsComponent {
   fetchBookings() {
     this.bookingService.getUserBookings(this.userId).subscribe(
       (data: any[]) => {
-        console.log('Fetched Bookings:', data); // Debugging
+        console.log('Fetched Bookings:', data); 
         this.bookings = data.map(booking => ({ 
           ...booking, 
           eventName: '',  
@@ -48,14 +48,14 @@ export class MyBookingsComponent {
           time: '',
           ticketType: booking.ticketType,
           quantity: booking.quantity,
-          price: 0 // Default price, will be updated later
+          price: 0 
         }));
   
         this.bookings.forEach(booking => {
-          console.log('Fetching event details for eventId:', booking.eventId); // Debugging
+          console.log('Fetching event details for eventId:', booking.eventId); 
           this.eventService.getEventById(booking.eventId).subscribe(
             (eventData) => {
-              console.log('Event Data:', eventData); // Debugging
+              console.log('Event Data:', eventData); 
               booking.eventName = eventData.eventName;    
               booking.image = eventData.image;      
               booking.date = eventData.date;        
@@ -97,7 +97,7 @@ export class MyBookingsComponent {
     
     this.bookingService.updateBooking(this.selectedBooking.id, this.selectedBooking.quantity, this.selectedBooking.ticketType).subscribe(
       () => {
-        this.fetchBookings(); // Refresh the list after update
+        this.fetchBookings(); 
         this.showUpdateForm = false;
         this.showSuccessMessage = true;
         setTimeout(() => this.showSuccessMessage = false, 3000);
@@ -115,7 +115,7 @@ export class MyBookingsComponent {
     this.selectedBooking = null;
   }
 
-  openCancelForm(id: string) { // Keep id as string
+  openCancelForm(id: string) { 
     this.cancelBookingId = id;
     this.showCancelConfirmation = true;
   }
@@ -123,7 +123,7 @@ export class MyBookingsComponent {
   confirmCancelBooking() {
     if (!this.cancelBookingId) return;
 
-    this.bookingService.cancelBooking(this.cancelBookingId).subscribe( // No need to convert now
+    this.bookingService.cancelBooking(this.cancelBookingId).subscribe( 
       () => {
         this.fetchBookings();
         this.cancelBookingId = null;

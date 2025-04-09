@@ -18,15 +18,16 @@ GET http://localhost:3000/api/events/
 ### Get a Single Event by ID
 GET http://localhost:3000/api/events/7404b8f8-11e6-41c9-b821-a1878cc46ef2
 ### Update an Event
-PUT http://localhost:3000/api/events/3d7937ca-01fc-4531-bf17-61d235ef2dd5
+PUT http://localhost:3000/api/events/6fa941ec-b950-42fc-a931-5b1396162e09
 Content-Type: application/json
 
 {
-  "eventName": "Robotics Event",
-  "date": "2025-10-20T10:00:00.000Z",
+  "eventName": "Basketball Sports Day",
+  "date": "2025-04-12T10:00:00.000Z",
   "time": "11:00 AM",
-  "location": "BSR 001",
-  "description": "Lets make robots!",
+  "location": "Basketball Court, Chuka",
+  "description": "Lets play basketball and have fun!",
+  "image": "https://i.pinimg.com/474x/e1/8d/8c/e18d8c2ef4d0d7287c2e330c955d9b7c.jpg",
   "totalTickets": 100
 }
 

@@ -24,13 +24,13 @@ export class BookingsComponent implements OnInit {
     this.eventService.getEvents().subscribe((events) => {
       this.eventsList = events;
       if (events.length > 0) {
-        this.selectEvent(events[0]); // Auto-select first event
+        this.selectEvent(events[0]); 
       }
     });
   }
 
   selectEvent(event: any): void {
-    this.selectedEvent = { ...event, bookings: [] }; // Reset bookings
+    this.selectedEvent = { ...event, bookings: [] }; 
     this.loadBookings(event.id);
   }
 
@@ -44,11 +44,11 @@ export class BookingsComponent implements OnInit {
           lastName: '', 
           phoneNo: 'N/A', 
           email: 'N/A', 
-          image: 'https://via.placeholder.com/50' // Placeholder image
+          image: 'https://via.placeholder.com/50' 
         }
       }));
       
-      this.selectedEvent.bookings = processedBookings; // Attach bookings to selectedEvent
+      this.selectedEvent.bookings = processedBookings; 
     });
   }
 }

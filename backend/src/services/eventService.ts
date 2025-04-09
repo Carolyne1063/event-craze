@@ -1,4 +1,3 @@
-// services/eventService.ts
 import { PrismaClient } from "@prisma/client";
 import { NotificationService } from "./notificationService";
 

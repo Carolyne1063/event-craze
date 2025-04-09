@@ -3,8 +3,8 @@ import nodemailer from 'nodemailer';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
-const prisma = new PrismaClient(); // ✅ Instantiate Prisma Client
-let otpStore: { [email: string]: string } = {}; // Temporary store
+const prisma = new PrismaClient(); 
+let otpStore: { [email: string]: string } = {}; 
 
 // 🔹 1. Forgot Password - Generate OTP
 export const forgotPassword = async (req: Request, res: Response) => {
@@ -74,8 +74,7 @@ export const resetPassword = async (req: Request, res: Response) => {
         });
 
         return res.status(200).json({ message: "Password reset successful" });
-    } catch (error: unknown) {  // Explicitly declare 'error' as 'unknown'
-        // 🔥 Convert 'unknown' to 'Error' type to access 'message'
+    } catch (error: unknown) {  
         const err = error as Error;
         return res.status(500).json({ message: "Error resetting password", error: err.message });
     }

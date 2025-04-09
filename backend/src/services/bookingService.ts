@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
-import MailService from "./mailService"; // adjust path as needed
+import MailService from "./mailService"; 
 import PaymentService from "./paymentService";
 
 const prisma = new PrismaClient();
@@ -53,10 +53,8 @@ class BookingService {
             Number(booking.totalPrice)
           );
           console.log("MPESA payment initiated:", paymentResponse);
-          // Optionally, you can update the booking record with payment details here.
         } catch (paymentError: any) {
           console.error("Error initiating MPESA payment:", paymentError.message);
-          // Depending on your business logic, you could rollback the booking or mark it as pending payment.
         }
       } else {
         console.warn("User phone number not available for MPESA payment.");

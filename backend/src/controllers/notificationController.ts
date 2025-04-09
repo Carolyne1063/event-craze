@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { NotificationService } from "../services/notificationService";
 
 export const NotificationController = {
-  // Get notifications for a user
   async getNotifications(req: Request, res: Response) {
     try {
       const { userId } = req.params;
@@ -13,7 +12,6 @@ export const NotificationController = {
     }
   },
 
-  // Mark a notification as read
   async markAsRead(req: Request, res: Response) {
     try {
       const { notificationId } = req.params;

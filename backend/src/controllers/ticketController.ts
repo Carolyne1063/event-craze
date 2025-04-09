@@ -8,9 +8,7 @@ import {
   getTicketById,
 } from "../services/ticketService";
 
-/**
- * Create Ticket
- */
+
 export const createTicketController = async (req: Request, res: Response) => {
   try {
     const { eventId, type, quantity, price } = req.body;
@@ -21,9 +19,7 @@ export const createTicketController = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Update Ticket
- */
+
 export const updateTicketController = async (req: Request, res: Response) => {
   try {
     const { ticketId } = req.params;
@@ -35,9 +31,7 @@ export const updateTicketController = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Delete Ticket
- */
+
 export const deleteTicketController = async (req: Request, res: Response) => {
   try {
     const { ticketId } = req.params;
@@ -48,9 +42,7 @@ export const deleteTicketController = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Get All Tickets
- */
+
 export const getAllTicketsController = async (req: Request, res: Response) => {
   try {
     const tickets = await getAllTickets();
@@ -60,9 +52,7 @@ export const getAllTicketsController = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Get Tickets for a Specific Event
- */
+
 export const getTicketsByEventController = async (req: Request, res: Response) => {
   try {
     const { eventId } = req.params;

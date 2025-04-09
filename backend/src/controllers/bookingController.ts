@@ -56,10 +56,7 @@ class BookingController {
     }
   }
 
-  /**
-   * Update a booking by changing the ticket quantity.
-   * Expects a `newQuantity` value in the request body.
-   */
+
   static async updateBooking(req: Request, res: Response): Promise<void> {
     try {
       const { bookingId } = req.params;
@@ -75,9 +72,7 @@ class BookingController {
     }
   }
 
-  /**
-   * Retrieve all bookings for a specific event.
-   */
+ 
   static async getBookingsByEvent(req: Request, res: Response): Promise<void> {
     try {
       const { eventId } = req.params;

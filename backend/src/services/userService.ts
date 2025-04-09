@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import MailService from './mailService'; // adjust the import path as needed
+import MailService from './mailService'; 
 
 const prisma = new PrismaClient();
 

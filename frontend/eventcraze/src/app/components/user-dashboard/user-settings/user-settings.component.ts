@@ -40,7 +40,7 @@ export class UserSettingsComponent implements OnInit {
   constructor(private userService: UserService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.userId = this.authService.getUserId(); // Store userId
+    this.userId = this.authService.getUserId(); 
   
     if (!this.userId) {
       console.error('User ID is missing!');
@@ -53,9 +53,9 @@ export class UserSettingsComponent implements OnInit {
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,
-          phone: data.phoneNo, // Correct key from backend
+          phone: data.phoneNo, 
           role: data.role,
-          imageUrl: data.image // Correct key from backend
+          imageUrl: data.image 
         };
       },
       (error) => {
@@ -78,9 +78,9 @@ export class UserSettingsComponent implements OnInit {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       email: this.user.email,
-      phoneNo: this.user.phone, // Change `phone` to `phoneNo`
+      phoneNo: this.user.phone, 
       role: this.user.role,
-      image: this.user.imageUrl, // Make sure this matches the backend field
+      image: this.user.imageUrl, 
     };
   
     this.userService.updateUser(this.userId, updatedUser).subscribe(

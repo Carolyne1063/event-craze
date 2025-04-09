@@ -40,7 +40,7 @@ Content-Type: application/json
 }
 
 ###Delete user
-DELETE http://localhost:3000/api/auth/c4d38d10-34f1-4771-bec2-89ea39c64b6b
+DELETE http://localhost:3000/api/auth/5ccfa163-add3-4315-b041-76facda18fd1
 
 ### Forgot Password API Test
 POST http://localhost:3000/api/auth/forgot-password

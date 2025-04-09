@@ -61,5 +61,5 @@ class EventController {
   }
 }
 
-// ✅ Export the class instead of an instance
+
 export { EventController };

@@ -12,16 +12,12 @@ router.post('/register', asyncHandler((req, res) => userController.register(req,
 router.post('/login', asyncHandler(async (req, res) => {
   await userController.login(req, res);
 }));
-
-// Get user by ID
 // Get user by ID
 router.get('/:userId', asyncHandler(async (req, res) => {
     await userController.getUser(req, res);
   }));
   // Get all users
 router.get('/', asyncHandler((req, res) => userController.getAllUsers(req, res)));
-
-
 
 // Update user
 router.put('/:userId', asyncHandler(async (req, res) => {

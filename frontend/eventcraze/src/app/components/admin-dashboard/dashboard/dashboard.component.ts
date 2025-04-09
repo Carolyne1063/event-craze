@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { EventService } from '../../../services/eventService';
 import { BookingService } from '../../../services/bookingService';
-import { UserService } from '../../../services/userService'; // make sure this service exists
+import { UserService } from '../../../services/userService'; 
 
 
 @Component({
