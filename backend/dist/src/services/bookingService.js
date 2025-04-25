@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const library_1 = require("@prisma/client/runtime/library");
-const mailService_1 = __importDefault(require("./mailService")); // adjust path as needed
+const mailService_1 = __importDefault(require("./mailService"));
 const paymentService_1 = __importDefault(require("./paymentService"));
 const prisma = new client_1.PrismaClient();
 class BookingService {
@@ -45,11 +45,9 @@ class BookingService {
                 try {
                     const paymentResponse = await paymentService_1.default.initiateSTKPush(booking.user.phoneNo, Number(booking.totalPrice));
                     console.log("MPESA payment initiated:", paymentResponse);
-                    // Optionally, you can update the booking record with payment details here.
                 }
                 catch (paymentError) {
                     console.error("Error initiating MPESA payment:", paymentError.message);
-                    // Depending on your business logic, you could rollback the booking or mark it as pending payment.
                 }
             }
             else {

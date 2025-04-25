@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const eventController_1 = require("../controllers/eventController");
 const router = express_1.default.Router();
-const eventController = new eventController_1.EventController(); // ✅ Instantiate the class
+const eventController = new eventController_1.EventController();
 router.post("/create", (0, express_async_handler_1.default)(eventController.createEvent.bind(eventController)));
 router.get("/:id", (0, express_async_handler_1.default)(eventController.getEventById.bind(eventController)));
 router.get("/", (0, express_async_handler_1.default)(eventController.getAllEvents.bind(eventController)));

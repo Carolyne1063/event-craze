@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// PaymentService.ts
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
@@ -44,7 +43,7 @@ class PaymentService {
             PartyA: `254${phone}`,
             PartyB: shortcode,
             PhoneNumber: `254${phone}`,
-            CallBackURL: "https://b554-102-215-12-244.ngrok-free.app/callback", // make sure to set this in your .env
+            CallBackURL: "https://b554-102-215-12-244.ngrok-free.app/callback",
             AccountReference: `EventBooking-${phone}`,
             TransactionDesc: "Payment for event booking",
         };

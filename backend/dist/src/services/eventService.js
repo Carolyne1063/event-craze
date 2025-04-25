@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventService = void 0;
-// services/eventService.ts
 const client_1 = require("@prisma/client");
 const notificationService_1 = require("./notificationService");
 const prisma = new client_1.PrismaClient();

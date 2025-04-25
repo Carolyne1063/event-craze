@@ -2,9 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTicketByIdController = exports.getTicketsByEventController = exports.getAllTicketsController = exports.deleteTicketController = exports.updateTicketController = exports.createTicketController = void 0;
 const ticketService_1 = require("../services/ticketService");
-/**
- * Create Ticket
- */
 const createTicketController = async (req, res) => {
     try {
         const { eventId, type, quantity, price } = req.body;
@@ -16,9 +13,6 @@ const createTicketController = async (req, res) => {
     }
 };
 exports.createTicketController = createTicketController;
-/**
- * Update Ticket
- */
 const updateTicketController = async (req, res) => {
     try {
         const { ticketId } = req.params;
@@ -31,9 +25,6 @@ const updateTicketController = async (req, res) => {
     }
 };
 exports.updateTicketController = updateTicketController;
-/**
- * Delete Ticket
- */
 const deleteTicketController = async (req, res) => {
     try {
         const { ticketId } = req.params;
@@ -45,9 +36,6 @@ const deleteTicketController = async (req, res) => {
     }
 };
 exports.deleteTicketController = deleteTicketController;
-/**
- * Get All Tickets
- */
 const getAllTicketsController = async (req, res) => {
     try {
         const tickets = await (0, ticketService_1.getAllTickets)();
@@ -58,9 +46,6 @@ const getAllTicketsController = async (req, res) => {
     }
 };
 exports.getAllTicketsController = getAllTicketsController;
-/**
- * Get Tickets for a Specific Event
- */
 const getTicketsByEventController = async (req, res) => {
     try {
         const { eventId } = req.params;

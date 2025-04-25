@@ -7,8 +7,8 @@ exports.resetPassword = exports.verifyOtp = exports.forgotPassword = void 0;
 const client_1 = require("@prisma/client");
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const prisma = new client_1.PrismaClient(); // ✅ Instantiate Prisma Client
-let otpStore = {}; // Temporary store
+const prisma = new client_1.PrismaClient();
+let otpStore = {};
 // 🔹 1. Forgot Password - Generate OTP
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
@@ -69,8 +69,7 @@ const resetPassword = async (req, res) => {
         });
         return res.status(200).json({ message: "Password reset successful" });
     }
-    catch (error) { // Explicitly declare 'error' as 'unknown'
-        // 🔥 Convert 'unknown' to 'Error' type to access 'message'
+    catch (error) {
         const err = error;
         return res.status(500).json({ message: "Error resetting password", error: err.message });
     }

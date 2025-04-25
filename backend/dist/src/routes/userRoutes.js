@@ -15,7 +15,6 @@ router.post('/login', (0, express_async_handler_1.default)(async (req, res) => {
     await userController.login(req, res);
 }));
 // Get user by ID
-// Get user by ID
 router.get('/:userId', (0, express_async_handler_1.default)(async (req, res) => {
     await userController.getUser(req, res);
 }));

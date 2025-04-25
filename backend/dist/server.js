@@ -30,7 +30,7 @@ app.use('/api/tickets', ticketRoutes_1.default);
 app.use('/api/reviews', reviewRoutes_1.default);
 app.use("/api/payments", paymentRoutes_1.default);
 app.use("/api/notifications", notificationRoutes_1.default);
-app.use('/api/auth', forgotPasswordRoutes_1.default); // This must match the frontend URL
+app.use('/api/auth', forgotPasswordRoutes_1.default);
 // Test endpoint for MPESA STK Push
 app.post('/stk', async (req, res, next) => {
     const { phone, amount } = req.body;
@@ -42,7 +42,6 @@ app.post('/stk', async (req, res, next) => {
         res.status(400).json({ error: error.message });
     }
 });
-// MPESA Callback endpoint to save transaction details
 // MPESA Callback endpoint to save transaction details
 app.post('/callback', async (req, res, next) => {
     console.log("MPESA Response:", req.body);

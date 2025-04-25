@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationController = void 0;
 const notificationService_1 = require("../services/notificationService");
 exports.NotificationController = {
-    // Get notifications for a user
     async getNotifications(req, res) {
         try {
             const { userId } = req.params;
@@ -14,7 +13,6 @@ exports.NotificationController = {
             res.status(500).json({ error: "Failed to fetch notifications" });
         }
     },
-    // Mark a notification as read
     async markAsRead(req, res) {
         try {
             const { notificationId } = req.params;

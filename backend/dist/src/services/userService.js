@@ -7,7 +7,7 @@ exports.UserService = void 0;
 const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const mailService_1 = __importDefault(require("./mailService")); // adjust the import path as needed
+const mailService_1 = __importDefault(require("./mailService"));
 const prisma = new client_1.PrismaClient();
 class UserService {
     // Register a new user

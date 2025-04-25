@@ -13,8 +13,6 @@ router.get("/:userId", bookingController_1.default.getBookingsByUser);
 // 📌 Get a Single Booking by ID
 router.get("/:bookingId", async (req, res, next) => {
     try {
-        // Call the static method from BookingController with req and res.
-        // (It already handles errors and sends a response.)
         await bookingController_1.default.getBookingById(req, res);
     }
     catch (error) {
